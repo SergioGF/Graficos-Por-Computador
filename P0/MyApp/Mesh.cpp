@@ -162,11 +162,17 @@ Mesh * Mesh::generateRectangle(GLdouble w, GLdouble h)
 	m->numVertices = 5;
 
 	m->vertices = new dvec3[m->numVertices];
-	m->vertices[0] = dvec3(h*cos(radians(45.0)), w*sin(radians(45.0)), 0);
+	/*m->vertices[0] = dvec3(h*cos(radians(45.0)), w*sin(radians(45.0)), 0);
 	m->vertices[1] = dvec3(h*cos(radians(135.0)), w*sin(radians(135.0)), 0);
 	m->vertices[2] = dvec3(h*cos(radians(225.0)), w*sin(radians(225.0)), 0);
 	m->vertices[3] = dvec3(h*cos(radians(315.0)), w*sin(radians(315.0)), 0);
-	m->vertices[4] = dvec3(h*cos(radians(45.0)), w*sin(radians(45.0)), 0);
+	m->vertices[4] = dvec3(h*cos(radians(45.0)), w*sin(radians(45.0)), 0);*/
+
+	m->vertices[0] = dvec3(-h / 2, w / 2, 0);
+	m->vertices[1] = dvec3(-h / 2, -w / 2, 0);
+	m->vertices[2] = dvec3(h / 2, w / 2, 0);
+	m->vertices[3] = dvec3(h / 2, -w / 2, 0);
+	m->vertices[4] = dvec3(-h / 2, w / 2, 0);
 
 	m->colors = new dvec4[m->numVertices];
 	m->colors[0] = dvec4(0.0, 0.0, 0.0, 0.0);
