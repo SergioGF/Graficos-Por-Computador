@@ -97,6 +97,10 @@ class Cubo : public Entity
 	 Cubo(GLdouble x);
 	 ~Cubo() { };
 	 virtual void draw();
+	 virtual void render(glm::dmat4 const& modelViewMat);
+protected:
+	Mesh * mesh2 = nullptr;
+	GLdouble altura;
 };
 
 #endif //_H_Entities_H_

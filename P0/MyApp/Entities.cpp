@@ -145,12 +145,6 @@ void Diabolo::render(glm::dmat4 const& modelViewMat)
 	glColor3d(0.0, 0.0, 0.0);
 	mesh->draw();
 
-	/*for (int i = 0; i < 4; i++) {
-		if(i == 1)
-			modelViewMat = rotate(modelViewMat, glm::radians(-45.0), glm::dvec3(0, 0.0, 1.0));
-		setMvM(modelViewMat);
-		draw();
-	}*/
 }
 
 Rectangle::Rectangle(GLdouble w, GLdouble h) : Entity()
@@ -166,12 +160,29 @@ void Rectangle::draw()
 
 Cubo::Cubo(GLdouble x) : Entity()
 {
-	mesh = Mesh::generateCubo(x);
+	mesh = Mesh::generateContCubo(x);
+	mesh2 = Mesh::generateRectangle(x, x);
+	altura = x;
 }
 
 void Cubo::draw()
 {
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	mesh->draw();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void Cubo::render(glm::dmat4 const& modelViewMat) {
+
+	setMvM(modelViewMat);
+	draw();
 	glPolygonMode(GL_FRONT, GL_LINE);
 	glPolygonMode(GL_BACK, GL_POINT);
-	mesh->draw();
+	glMatrixMode(GL_MODELVIEW);
+	dmat4 aMat = modelViewMat * modelMat;
+	int pend = (altura * 15) / 100;
+	aMat = translate(aMat, glm::dvec3(0, altura-pend, -pend));
+	aMat = rotate(aMat, radians(45.0), glm::dvec3(1.0, 0.0, 0.0));
+	glLoadMatrixd(value_ptr(aMat));
+	mesh2->draw();
 }

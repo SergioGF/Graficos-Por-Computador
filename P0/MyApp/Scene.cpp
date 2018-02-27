@@ -17,8 +17,8 @@ void Scene::init()
   //objetos.push_back(new Diabolo(200.0, 400.0));
   //objetos.push_back(new ContCubo(200.0));
   //objetos.push_back(new TrianguloRGB(100.0));
-  //objetos.push_back(new TriPyramid(100.0,200.0));*Rectángulo actual
-	objetos.push_back(new ContCubo(100.0));
+  //objetos.push_back(new TriPyramid(100.0,200.0));
+	objetos.push_back(new Cubo(100.0));
 }
 //-------------------------------------------------------------------------
 
