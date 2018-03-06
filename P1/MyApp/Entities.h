@@ -109,9 +109,13 @@ protected:
 class Suelo : public Entity
 {
 public:
-	Suelo(GLdouble w, GLdouble h);
+	Suelo(GLdouble w, GLdouble h, GLdouble a);
 	~Suelo() { };
 	virtual void draw();
+	virtual void render(glm::dmat4 const& modelViewMat);
+
+protected:
+	GLdouble altura;
 };
 
 #endif //_H_Entities_H_

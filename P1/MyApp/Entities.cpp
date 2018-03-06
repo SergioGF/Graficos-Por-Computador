@@ -209,10 +209,11 @@ void Cubo::render(glm::dmat4 const& modelViewMat) {
 	textura.unbind();
 }
 
-Suelo::Suelo(GLdouble w, GLdouble h) : Entity()
+Suelo::Suelo(GLdouble w, GLdouble h, GLdouble a) : Entity()
 {
 	mesh = Mesh::generateSueloTex(w, h);
 	textura.load("..\\Bmps\\baldosaC.bmp");
+	altura = a;
 }
 void Suelo::draw()
 {
@@ -221,4 +222,15 @@ void Suelo::draw()
 	mesh->draw();
 	textura.unbind();
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void Suelo::render(glm::dmat4 const& modelViewMat) {
+	setMvM(modelViewMat);
+	glMatrixMode(GL_MODELVIEW);
+	dmat4 aMat = modelViewMat * modelMat;
+	aMat = rotate(aMat, radians(90.0), glm::dvec3(1.0, 0.0, 0.0));
+	aMat = translate(aMat, glm::dvec3(0.0, 0.0, altura/2));
+	glLoadMatrixd(value_ptr(aMat));
+	draw();
+
 }
