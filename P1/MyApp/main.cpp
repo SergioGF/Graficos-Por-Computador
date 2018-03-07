@@ -119,6 +119,7 @@ void key(unsigned char key, int x, int y)
 	  x2 = glutGet(GLUT_WINDOW_WIDTH);
 	  y2 = glutGet(GLUT_WINDOW_HEIGHT);
 	  texture.loadColorBuffer(x2, y2);
+	  texture.save("texturaGIC.bmp");
 	  //scene.saveImage();
 	  break;
   default:

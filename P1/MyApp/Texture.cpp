@@ -49,3 +49,13 @@ bool Texture::loadColorBuffer(GLsizei width, GLsizei height) {
 
 	return true;
 }
+
+void Texture::save(const std::string & BMP_Name) {
+	PixMap32RGBA pixMap;
+	GLsizei width = glutGet(GLUT_WINDOW_WIDTH);
+	GLsizei height = glutGet(GLUT_WINDOW_HEIGHT);
+	pixMap.create_pixmap(width, height);
+	glGetTexImage(GL_TEXTURE_2D,0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+	pixMap.save_bmp24BGR(BMP_Name);
+
+}
