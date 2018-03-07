@@ -25,12 +25,12 @@ void Entity::RotacionDiabolo() {
 	//ang = ang + 10;
 }
 
-void Entity::guardarImagen() {
+/*void Entity::guardarImagen() {
 
 	int x = glutGet(GLUT_WINDOW_WIDTH);
 	int y = glutGet(GLUT_WINDOW_HEIGHT);
 	textura.loadColorBuffer(x,y);
-}
+}*/
 //-------------------------------------------------------------------------
 
 void Entity::setMvM(dmat4 const& modelViewMat)

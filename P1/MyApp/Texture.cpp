@@ -41,7 +41,8 @@ bool Texture::loadColorBuffer(GLsizei width, GLsizei height) {
 
 	glBindTexture(GL_TEXTURE_2D, id);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
-	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);	glReadBuffer(GL_BACK);
+	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);
+	glReadBuffer(GL_BACK);
 
 	//save
 	//glGetTexImage();

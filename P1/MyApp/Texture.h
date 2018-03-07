@@ -1,8 +1,13 @@
 //#pragma once
+#ifndef _H_Texture_H_
+#define _H_Texture_H_
+
 #include <GL/freeglut.h>
 #include <glm.hpp>
 #include "Mesh.h"
 #include <string>
+
+//-------------------------------------------------------------------------
 
 class Texture // utiliza la clase PixMap32RGBA para el método load
 {
@@ -18,4 +23,8 @@ protected:
 	GLuint w, h; // dimensiones de la imagen
 	GLuint id; // identificador interno (GPU) de la textura
 	void init();
-};
+};
+#endif // !_H_Texture_H_
+
+
+

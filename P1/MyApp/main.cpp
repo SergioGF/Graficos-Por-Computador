@@ -7,6 +7,7 @@
 
 #include "Camera.h"
 #include "Scene.h"
+#include "Texture.h"
 
 #include <iostream>
 using namespace std;
@@ -21,6 +22,7 @@ Camera camera(&viewPort);
 
 // Scene entities
 Scene scene(&camera);   
+
 
 //----------- Callbacks ----------------------------------------------------
 
@@ -90,7 +92,9 @@ void resize(int newWidth, int newHeight)
 void key(unsigned char key, int x, int y)
 {
   bool need_redisplay = true;
-
+  int x2;
+  int y2;
+  Texture texture;
   switch (key) {
   case 27:  // Escape key 
     glutLeaveMainLoop();  // Freeglut's sentence for stopping glut's main loop 
@@ -112,7 +116,10 @@ void key(unsigned char key, int x, int y)
 	  scene.render();
 	  break;
   case 'g':
-	  scene.saveImage();
+	  x2 = glutGet(GLUT_WINDOW_WIDTH);
+	  y2 = glutGet(GLUT_WINDOW_HEIGHT);
+	  texture.loadColorBuffer(x2, y2);
+	  //scene.saveImage();
 	  break;
   default:
     need_redisplay = false;

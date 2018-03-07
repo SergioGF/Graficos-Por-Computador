@@ -71,11 +71,11 @@ void Scene::aumentarRotacion() {
 	}
 }
 
-void Scene::saveImage() {
+/*void Scene::saveImage() {
 	for each (Entity* it in objetos)
 	{
 		it->guardarImagen();
 	}
-}
+}*/
 //-------------------------------------------------------------------------
 
