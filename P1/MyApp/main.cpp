@@ -111,6 +111,9 @@ void key(unsigned char key, int x, int y)
 	  scene.aumentarRotacion();
 	  scene.render();
 	  break;
+  case 'g':
+	  scene.saveImage();
+	  break;
   default:
     need_redisplay = false;
     break;

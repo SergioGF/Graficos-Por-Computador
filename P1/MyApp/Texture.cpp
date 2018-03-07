@@ -1,6 +1,7 @@
 #include "Texture.h"
 #include "Pixmap32RGBA.h"
 
+
 void Texture::init() {
 	glGenTextures(1, &id); // genera un identificador para una nueva textura
 	glBindTexture(GL_TEXTURE_2D, id); // Filters and clamping
@@ -29,6 +30,21 @@ bool Texture::load(const std::string & BMP_Name, GLubyte alpha) {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA,
 		GL_UNSIGNED_BYTE, pixMap.data());
 	// transferir a openGL
+
+	return true;
+}
+
+bool Texture::loadColorBuffer(GLsizei width, GLsizei height) {
+
+	PixMap32RGBA pixMap;
+	pixMap.create_pixmap(width, height);
+
+	glBindTexture(GL_TEXTURE_2D, id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);	glReadBuffer(GL_BACK);
+
+	//save
+	//glGetTexImage();
 
 	return true;
 }

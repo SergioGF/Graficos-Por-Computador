@@ -17,6 +17,7 @@ public:
 
   virtual void render(glm::dmat4 const& modelViewMat);
   virtual void RotacionDiabolo();
+  virtual void guardarImagen();
   
 protected:
   Mesh* mesh = nullptr;

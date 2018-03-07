@@ -24,6 +24,13 @@ void Entity::draw()
 void Entity::RotacionDiabolo() {
 	//ang = ang + 10;
 }
+
+void Entity::guardarImagen() {
+
+	int x = glutGet(GLUT_WINDOW_WIDTH);
+	int y = glutGet(GLUT_WINDOW_HEIGHT);
+	textura.loadColorBuffer(x,y);
+}
 //-------------------------------------------------------------------------
 
 void Entity::setMvM(dmat4 const& modelViewMat)
@@ -181,6 +188,7 @@ void Cubo::draw()
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 	textura.bind();
+	mesh->draw();
 	glDisable(GL_CULL_FACE);
 	glCullFace(GL_FRONT);
 	glEnable(GL_CULL_FACE);

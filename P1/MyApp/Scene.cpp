@@ -70,5 +70,12 @@ void Scene::aumentarRotacion() {
 		it->RotacionDiabolo();
 	}
 }
+
+void Scene::saveImage() {
+	for each (Entity* it in objetos)
+	{
+		it->guardarImagen();
+	}
+}
 //-------------------------------------------------------------------------
 
