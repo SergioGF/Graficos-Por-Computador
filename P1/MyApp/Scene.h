@@ -17,6 +17,7 @@ public:
     void init();
 	  void render();    
 	  void aumentarRotacion();
+	  void update(GLuint timeElapsed);
 	  //void saveImage();
 	  
 protected:

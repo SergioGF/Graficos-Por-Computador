@@ -36,11 +36,9 @@ bool Texture::load(const std::string & BMP_Name, GLubyte alpha) {
 
 bool Texture::loadColorBuffer(GLsizei width, GLsizei height) {
 
-	PixMap32RGBA pixMap;
-	pixMap.create_pixmap(width, height);
+	if (id == 0) init();
 
 	glBindTexture(GL_TEXTURE_2D, id);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
 	glCopyTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 0, 0, width, height, 0);
 	glReadBuffer(GL_BACK);
 

@@ -25,6 +25,10 @@ void Entity::RotacionDiabolo() {
 	//ang = ang + 10;
 }
 
+void Entity::update(GLuint timeElapsed) {
+
+}
+
 /*void Entity::guardarImagen() {
 
 	int x = glutGet(GLUT_WINDOW_WIDTH);
@@ -118,6 +122,11 @@ void Diabolo::draw()
 
 void Diabolo::RotacionDiabolo() {
 	ang = ang + 10;
+}
+
+void Diabolo::update(GLuint timeElapsed)
+{
+	RotacionDiabolo();
 }
 void Diabolo::render(glm::dmat4 const& modelViewMat)
 {
@@ -241,4 +250,20 @@ void Suelo::render(glm::dmat4 const& modelViewMat) {
 	glLoadMatrixd(value_ptr(aMat));
 	draw();
 
+}
+
+Espejo::Espejo(GLdouble w, GLdouble h) : Entity()
+{
+	mesh = Mesh::generateEspejoTex(w, h);
+}
+void Espejo::draw()
+{
+	textura.bind();
+	mesh->draw();
+	textura.unbind();
+}
+
+void Espejo::update(GLuint timeElapsed)
+{
+	textura.loadColorBuffer(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }

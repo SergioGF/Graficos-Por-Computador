@@ -17,6 +17,7 @@ public:
 
   virtual void render(glm::dmat4 const& modelViewMat);
   virtual void RotacionDiabolo();
+  virtual void update(GLuint timeElapsed);
   //virtual void guardarImagen();
   
 protected:
@@ -81,6 +82,7 @@ public:
 	virtual void draw();
 	void RotacionDiabolo();
 	virtual void render(glm:: dmat4 const& modelViewMat);
+	virtual void update(GLuint timeElapsed);
 protected:
 	GLdouble radio;
 	GLdouble altura;
@@ -119,4 +121,13 @@ protected:
 	GLdouble altura;
 };
 
+
+class Espejo : public Entity
+{
+public:
+	Espejo(GLdouble w, GLdouble h);
+	~Espejo() { };
+	virtual void draw();
+	virtual void update(GLuint timeElapsed);
+};
 #endif //_H_Entities_H_

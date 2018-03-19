@@ -1,3 +1,4 @@
-﻿  Entities.cpp
-c:\users\sergio\desktop\master fdi\graficas por computador\practicas\p1\myapp\entities.cpp(204): warning C4244: 'inicializando': conversión de 'GLdouble' a 'int'; posible pérdida de datos
+﻿  main.cpp
+c:\users\sergio\desktop\master fdi\graficas por computador\practicas\p1\myapp\main.cpp(96): warning C4101: 'y2': variable local sin referencia
+c:\users\sergio\desktop\master fdi\graficas por computador\practicas\p1\myapp\main.cpp(95): warning C4101: 'x2': variable local sin referencia
   MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\Practicas\P1\bin\MyAppDebug.exe

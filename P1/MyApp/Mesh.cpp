@@ -164,7 +164,7 @@ Mesh * Mesh::generateRectangle(GLdouble w, GLdouble h)
 {
 	Mesh* m = new Mesh();
 	m->type = GL_TRIANGLE_STRIP;
-	m->numVertices = 5;
+	m->numVertices = 4;
 
 	m->vertices = new dvec3[m->numVertices];
 	/*m->vertices[0] = dvec3(h*cos(radians(45.0)), w*sin(radians(45.0)), 0);
@@ -177,14 +177,12 @@ Mesh * Mesh::generateRectangle(GLdouble w, GLdouble h)
 	m->vertices[1] = dvec3(-h / 2, -w / 2, 0);
 	m->vertices[2] = dvec3(h / 2, w / 2, 0);
 	m->vertices[3] = dvec3(h / 2, -w / 2, 0);
-	m->vertices[4] = dvec3(-h / 2, w / 2, 0);
 
 	m->colors = new dvec4[m->numVertices];
 	m->colors[0] = dvec4(0.0, 0.0, 0.0, 0.0);
 	m->colors[1] = dvec4(0.0, 0.0, 0.0, 0.0);
 	m->colors[2] = dvec4(0.0, 0.0, 0.0, 0.0);
 	m->colors[3] = dvec4(0.0, 0.0, 0.0, 0.0);
-	m->colors[4] = dvec4(0.0, 0.0, 0.0, 0.0);
 
 	return m;
 }
@@ -197,7 +195,6 @@ Mesh* Mesh::generateRectangleTex(GLdouble w, GLdouble h)
 	m->texCoords[1] = dvec2(0, 0);
 	m->texCoords[2] = dvec2(1, 1);
 	m->texCoords[3] = dvec2(1, 0);
-	m->texCoords[4] = dvec2(0, 1);
 	return m;
 }
 
@@ -239,7 +236,18 @@ Mesh* Mesh::generateSueloTex(GLdouble w, GLdouble h)
 	m->texCoords[1] = dvec2(0, 0);
 	m->texCoords[2] = dvec2(4, 4);
 	m->texCoords[3] = dvec2(4, 0);
-	m->texCoords[4] = dvec2(0, 4);
 	return m;
 }
+
+Mesh* Mesh::generateEspejoTex(GLdouble w, GLdouble h)
+{
+	Mesh *m = generateRectangle(w, h);
+	m->texCoords = new dvec2[m->numVertices];
+	m->texCoords[0] = dvec2(0, 1);
+	m->texCoords[1] = dvec2(0, 0);
+	m->texCoords[2] = dvec2(1, 1);
+	m->texCoords[3] = dvec2(1, 0);
+	return m;
+}
+
 

@@ -20,7 +20,7 @@ void Scene::init()
   objetos.push_back(new Diabolo(80.0, 140.0));
   objetos.push_back(new Suelo(1000.0, 1000.0, 180.0));
   objetos.push_back(new EjesRGB(500.0));
-
+  objetos.push_back(new Espejo(100.0,100.0));
 }
 //-------------------------------------------------------------------------
 
@@ -55,6 +55,9 @@ viewport = camera->getVP();
 	  else if (i == 3) {
 		  viewport->setPos(0, 0);
 	  }
+	  else if (i == 4) {
+		  viewport->setPos(0, 200);
+	  }
 	  i++;
 	  it->render(camera->getViewMat());
   }
@@ -68,6 +71,13 @@ void Scene::aumentarRotacion() {
 	for each (Entity* it in objetos)
 	{
 		it->RotacionDiabolo();
+	}
+}
+
+void Scene::update(GLuint timeElapsed) {
+	for each (Entity* it in objetos)
+	{
+		it->update(timeElapsed);
 	}
 }
 

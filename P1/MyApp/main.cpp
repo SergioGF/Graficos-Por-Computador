@@ -115,12 +115,16 @@ void key(unsigned char key, int x, int y)
 	  scene.aumentarRotacion();
 	  scene.render();
 	  break;
-  case 'g':
-	  x2 = glutGet(GLUT_WINDOW_WIDTH);
-	  y2 = glutGet(GLUT_WINDOW_HEIGHT);
+  case 'f': {
+	  Texture texture;
+	  int x2 = glutGet(GLUT_WINDOW_WIDTH);
+	  int y2 = glutGet(GLUT_WINDOW_HEIGHT);
 	  texture.loadColorBuffer(x2, y2);
-	  texture.save("texturaGIC.bmp");
+	  texture.save("texturaGIC.bmp");}
 	  //scene.saveImage();
+	  break;
+  case 'g':
+		  scene.update(1000);
 	  break;
   default:
     need_redisplay = false;

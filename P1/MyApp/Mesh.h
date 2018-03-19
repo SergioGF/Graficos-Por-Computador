@@ -20,6 +20,7 @@ public:
   static Mesh* generateContCuboTex(GLdouble l);
   static Mesh* generateTriPyramidTex(GLdouble r, GLdouble h);
   static Mesh* generateSueloTex(GLdouble w, GLdouble h);
+  static Mesh* generateEspejoTex(GLdouble w, GLdouble h);
  
   Mesh(void) { };
   ~Mesh(void);
