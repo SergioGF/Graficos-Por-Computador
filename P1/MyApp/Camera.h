@@ -53,11 +53,28 @@ public:
   void setSize(GLdouble aw, GLdouble ah);
   void scale(GLdouble s); 
  
+  void moveLR(GLdouble cs); // Left / Right 
+  void moveFB(GLdouble cs); // Forward / Backward  
+  void moveUD(GLdouble cs); // Up / Down 
+  void rotatePY(GLdouble incrPitch, GLdouble incrYaw);
+
 protected:
   glm::dvec3 eye = { 0.0, 0.0, 500.0 };
   glm::dvec3 look = { 0.0, 0.0, 0.0 };
   glm::dvec3 up = { 0.0, 1.0, 0.0 };
   glm::dmat4 viewMat;  // inverse
+
+/* 
+front = -n
+n (z) = normalize(eye – look) // -n es la dirección de vista
+*/
+  glm::dvec3 front = -normalize(eye-look); 
+
+  /*
+  right = u
+  u (x) = normalize(cross(up, n)) // ortogonal a up y n
+  */
+  glm::dvec3 right = normalize(cross(up, normalize(eye-look)));
 
   GLdouble xRight, xLeft, yTop, yBot;
   GLdouble nearVal = 1;
@@ -69,6 +86,9 @@ protected:
 
   void setVM();
   void setPM();
+
+ 
+
 };
 
 //-------------------------------------------------------------------------

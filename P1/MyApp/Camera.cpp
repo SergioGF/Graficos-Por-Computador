@@ -99,4 +99,19 @@ void Camera::setPM()
 }
 //-------------------------------------------------------------------------
 
+void Camera::moveLR(GLdouble cs) { // Left / Right 
 
+}
+void Camera::moveFB(GLdouble cs) { // Forward / Backward   
+	//front = -normalize(eye - look);
+	eye = eye + (front * cs);
+	viewMat = lookAt(eye, eye + front, up);
+	setVM();
+	setPM();
+}
+void Camera::moveUD(GLdouble cs) { // Up / Down 
+
+}
+void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
+
+ }
