@@ -124,16 +124,20 @@ void key(unsigned char key, int x, int y)
 	  //scene.saveImage();
 	  break;
   case 'W':
-	  camera.moveFB(+0.1);
+	  camera.moveFB(80.0);
+	  camera.actualizarFront();
 	  break;
   case 'A':
-	  camera.moveLR(-0.1);
+	  camera.moveLR(-3.0);
+	  camera.actualizarRight();
 	  break;
   case 'S':
-	  camera.moveFB(-0.1);
+	  camera.moveFB(-80.0);
+	  camera.actualizarFront();
 	  break;
   case 'D':
-	  camera.moveLR(0.1);
+	  camera.moveLR(3.0);
+	  camera.actualizarRight();
 	  break;
   default:
     need_redisplay = false;

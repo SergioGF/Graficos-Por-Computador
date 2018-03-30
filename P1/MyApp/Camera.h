@@ -55,6 +55,8 @@ public:
  
   void moveLR(GLdouble cs); // Left / Right 
   void moveFB(GLdouble cs); // Forward / Backward  
+  void actualizarFront();
+  void actualizarRight();
   void moveUD(GLdouble cs); // Up / Down 
   void rotatePY(GLdouble incrPitch, GLdouble incrYaw);
 
