@@ -123,8 +123,21 @@ void key(unsigned char key, int x, int y)
 	  texture.save("texturaGIC.bmp");}
 	  //scene.saveImage();
 	  break;
-  case 'g':
-		  scene.update(1000);
+  case 'W':
+	  camera.moveFB(80.0);
+	  camera.actualizarFront();
+	  break;
+  case 'A':
+	  camera.moveLR(-3.0);
+	  camera.actualizarRight();
+	  break;
+  case 'S':
+	  camera.moveFB(-80.0);
+	  camera.actualizarFront();
+	  break;
+  case 'D':
+	  camera.moveLR(3.0);
+	  camera.actualizarRight();
 	  break;
   default:
     need_redisplay = false;
