@@ -5,8 +5,6 @@
 
 using namespace glm;
 
-bool orto = false;
-
 void Viewport::setPos(GLsizei aw, GLsizei ah)
 {
 	x = aw;
@@ -113,15 +111,15 @@ void Camera::moveUD(GLdouble cs) { // Up / Down
 
 }
 void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
-	/*pitch += offsetP; 
-	yaw += offsetY; // Actualizar los ángulos
-	if (pitch > 89.5) pitch = 89.5; // Limitar los ángulos
+	pitchAux += incrPitch;
+	yawAux += incrYaw; // Actualizar los ángulos
+	if (pitchAux > 89.5) pitchAux = 89.5; // Limitar los ángulos
 		// Actualizar la dirección de vista
-	front.x = sin(radians(yaw)) * cos(radians(pitch));
-	front.y = sin(radians(pitch));
-	front.z = -cos(radians(yaw)) * cos(radians(pitch));
+	front.x = sin(radians(yawAux)) * cos(radians(pitchAux));
+	front.y = sin(radians(pitchAux));
+	front.z = -cos(radians(yawAux)) * cos(radians(pitchAux));
 	front = glm::normalize(front);
-	viewMat = lookAt(eye, eye + front, up);*/
+	viewMat = lookAt(eye, eye + front, up);
  }
 
 void Camera::actualizarFront() {
