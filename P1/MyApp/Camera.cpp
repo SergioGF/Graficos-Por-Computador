@@ -56,12 +56,14 @@ void Camera::setVM()
 
 void Camera::pitch(GLdouble a) 
 {  
-  viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(1.0, 0, 0));
+  //viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(1.0, 0, 0));
+	rotatePY(a,0);
 }
 //-------------------------------------------------------------------------
 void Camera::yaw(GLdouble a)
 {
-  viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 1.0, 0));
+  //viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 1.0, 0));
+	rotatePY(0, a);
 }
 //-------------------------------------------------------------------------
 void Camera::roll(GLdouble a)
@@ -131,17 +133,18 @@ void Camera::actualizarRight() {
 }
 
 void Camera::setPrj() {
-	if (orto == false) {
+	if (orto == false) { //ortogonal
 		orto = true;
 		glMatrixMode(GL_PROJECTION);
-		projMat = ortho(xLeft, xRight, yBot, yTop, nearVal, farVal);
+		projMat = ortho(xLeft, xRight, yBot, yTop, yTop, farVal);
 		glLoadMatrixd(value_ptr(projMat));
 		glMatrixMode(GL_MODELVIEW);
+
 	}
 	else {
-		orto = false;
+		orto = false; //perspectiva
 		glMatrixMode(GL_PROJECTION);
-		projMat = frustum(xLeft, xRight, yBot, yTop, nearVal, farVal);
+		projMat = frustum(xLeft, xRight, yBot, yTop, yTop, farVal);
 		glLoadMatrixd(value_ptr(projMat));
 		glMatrixMode(GL_MODELVIEW);
 	}

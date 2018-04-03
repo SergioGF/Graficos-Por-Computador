@@ -195,7 +195,7 @@ void motion(int x, int y) {
 
 void mouse(int button, int state, int x, int y) {
 	mCoord.x = x;
-	mCoord.y = -y;
+	mCoord.y = glutGet(GLUT_WINDOW_HEIGHT) - y;
 }
 //-------------------------------------------------------------------------
 

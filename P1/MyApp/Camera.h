@@ -84,7 +84,7 @@ n (z) = normalize(eye – look) // -n es la dirección de vista
   GLdouble farVal = 10000;
   GLdouble factScale = 1;
   GLdouble pitchAux, yawAux;
-  bool orto = false;
+  bool orto = true;
   glm::dmat4 projMat;
 
   Viewport* vp;
