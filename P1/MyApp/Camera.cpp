@@ -5,6 +5,8 @@
 
 using namespace glm;
 
+bool orto = false;
+
 void Viewport::setPos(GLsizei aw, GLsizei ah)
 {
 	x = aw;
@@ -111,7 +113,15 @@ void Camera::moveUD(GLdouble cs) { // Up / Down
 
 }
 void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
-
+	/*pitch += offsetP; 
+	yaw += offsetY; // Actualizar los ángulos
+	if (pitch > 89.5) pitch = 89.5; // Limitar los ángulos
+		// Actualizar la dirección de vista
+	front.x = sin(radians(yaw)) * cos(radians(pitch));
+	front.y = sin(radians(pitch));
+	front.z = -cos(radians(yaw)) * cos(radians(pitch));
+	front = glm::normalize(front);
+	viewMat = lookAt(eye, eye + front, up);*/
  }
 
 void Camera::actualizarFront() {
@@ -120,4 +130,21 @@ void Camera::actualizarFront() {
 
 void Camera::actualizarRight() {
 	right = normalize(cross(up, normalize(eye - look)));
+}
+
+void Camera::setPrj() {
+	if (orto == false) {
+		orto = true;
+		glMatrixMode(GL_PROJECTION);
+		projMat = ortho(xLeft, xRight, yBot, yTop, nearVal, farVal);
+		glLoadMatrixd(value_ptr(projMat));
+		glMatrixMode(GL_MODELVIEW);
+	}
+	else {
+		orto = false;
+		glMatrixMode(GL_PROJECTION);
+		projMat = frustum(xLeft, xRight, yBot, yTop, nearVal, farVal);
+		glLoadMatrixd(value_ptr(projMat));
+		glMatrixMode(GL_MODELVIEW);
+	}
 }

@@ -4,7 +4,7 @@
 //#include <GL/glut.h>
 
 #include <GL/freeglut.h>
-
+#include <glm.hpp>
 #include "Camera.h"
 #include "Scene.h"
 #include "Texture.h"
@@ -21,7 +21,10 @@ Viewport viewPort(800, 600);
 Camera camera(&viewPort);    
 
 // Scene entities
-Scene scene(&camera);   
+Scene scene(&camera); 
+
+// Coordenadas del raton
+glm::dvec2 mCoord;
 
 
 //----------- Callbacks ----------------------------------------------------
@@ -30,6 +33,9 @@ void display();
 void resize(int newWidth, int newHeight);
 void key(unsigned char key, int x, int y);
 void specialKey(int key, int x, int y);
+void mouse(int button, int state, int x, int y);
+void motion(int x, int y);
+
 
 //-------------------------------------------------------------------------
 
@@ -51,6 +57,8 @@ int main(int argc, char *argv[])
   int win = glutCreateWindow( "Freeglut-project" );  // window's identifier
   
   // Callback registration
+  glutMouseFunc(mouse);
+  glutMotionFunc(motion);
   glutReshapeFunc(resize);
   glutKeyboardFunc(key);
   glutSpecialFunc(specialKey);
@@ -62,7 +70,6 @@ int main(int argc, char *argv[])
   scene.init();    // after creating the context
    
   glutMainLoop(); 
-    
   //cin.sync();   cin.get();
   glutDestroyWindow(win);  // Destroy the context 
 
@@ -139,6 +146,9 @@ void key(unsigned char key, int x, int y)
 	  camera.moveLR(3.0);
 	  camera.actualizarRight();
 	  break;
+  case 'p':
+	  camera.setPrj();
+	  break;
   default:
     need_redisplay = false;
     break;
@@ -173,6 +183,19 @@ void specialKey(int key, int x, int y)
 
   if (need_redisplay)
     glutPostRedisplay();
+}
+
+void motion(int x, int y) {
+	glm::dvec2 mOffset = mCoord; // var. global
+	mCoord = glm::dvec2(x, glutGet(GLUT_WINDOW_HEIGHT) - y);
+	mOffset = (mCoord - mOffset) * 0.05; // sensitivity = 0.05
+	camera.rotatePY(mOffset.y, mOffset.x);
+	glutPostRedisplay();
+}
+
+void mouse(int button, int state, int x, int y) {
+	mCoord.x = x;
+	mCoord.y = -y;
 }
 //-------------------------------------------------------------------------
 

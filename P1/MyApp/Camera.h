@@ -59,6 +59,7 @@ public:
   void actualizarRight();
   void moveUD(GLdouble cs); // Up / Down 
   void rotatePY(GLdouble incrPitch, GLdouble incrYaw);
+  void setPrj();
 
 protected:
   glm::dvec3 eye = { 0.0, 0.0, 500.0 };
