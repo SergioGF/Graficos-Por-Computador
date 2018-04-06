@@ -122,6 +122,7 @@ void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
 	front.z = -cos(radians(yawAux)) * cos(radians(pitchAux));
 	front = glm::normalize(front);
 	viewMat = lookAt(eye, eye + front, up);
+	setPM();
  }
 
 void Camera::actualizarFront() {
@@ -148,4 +149,12 @@ void Camera::setPrj() {
 		glLoadMatrixd(value_ptr(projMat));
 		glMatrixMode(GL_MODELVIEW);
 	}
+}
+
+void Camera::actualizarPitch() {
+	pitchAux = glm::degrees(asin(front.y));
+}
+
+void Camera::actualizarYaw() {
+	yawAux = glm::degrees(asin(front.x / cos(radians(pitchAux))));
 }

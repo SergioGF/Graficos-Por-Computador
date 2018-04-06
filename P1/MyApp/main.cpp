@@ -114,9 +114,17 @@ void key(unsigned char key, int x, int y)
     break;
   case 'l':
 	  camera.set3D(); 
+	  camera.actualizarFront();
+	  camera.actualizarRight();
+	  camera.actualizarPitch();
+	  camera.actualizarYaw();
 	  break;
   case 'o':
 	  camera.setAZ();
+	  camera.actualizarFront();
+	  camera.actualizarRight();
+	  camera.actualizarPitch();
+	  camera.actualizarYaw();
 	  break;
   case 'a':
 	  scene.aumentarRotacion();
@@ -127,7 +135,8 @@ void key(unsigned char key, int x, int y)
 	  int x2 = glutGet(GLUT_WINDOW_WIDTH);
 	  int y2 = glutGet(GLUT_WINDOW_HEIGHT);
 	  texture.loadColorBuffer(x2, y2);
-	  texture.save("texturaGIC.bmp");}
+	  texture.save("texturaGIC.bmp");
+  }
 	  //scene.saveImage();
 	  break;
   case 'W':
@@ -148,6 +157,10 @@ void key(unsigned char key, int x, int y)
 	  break;
   case 'p':
 	  camera.setPrj();
+	  camera.actualizarFront();
+	  camera.actualizarRight();
+	  camera.actualizarPitch();
+	  camera.actualizarYaw();
 	  break;
   default:
     need_redisplay = false;
@@ -166,15 +179,23 @@ void specialKey(int key, int x, int y)
   switch (key) {
   case GLUT_KEY_RIGHT:
     camera.pitch(1);   // rotate 1 on the X axis
+	camera.actualizarFront();
+	camera.actualizarRight();
     break;
   case GLUT_KEY_LEFT:
     camera.yaw(1);     // rotate 1 on the Y axis 
+	camera.actualizarFront();
+	camera.actualizarRight();
     break;
   case GLUT_KEY_UP:
     camera.roll(1);    // rotate 1 on the Z axis
+	camera.actualizarFront();
+	camera.actualizarRight();
     break;
   case GLUT_KEY_DOWN:
     camera.roll(-1);   // rotate -1 on the Z axis
+	camera.actualizarFront();
+	camera.actualizarRight();
     break;
   default:
     need_redisplay = false;
@@ -191,6 +212,7 @@ void motion(int x, int y) {
 	mOffset = (mCoord - mOffset) * 0.05; // sensitivity = 0.05
 	camera.rotatePY(mOffset.y, mOffset.x);
 	glutPostRedisplay();
+	//camera.actualizarFront();
 }
 
 void mouse(int button, int state, int x, int y) {
