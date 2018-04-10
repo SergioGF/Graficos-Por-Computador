@@ -16,11 +16,13 @@ void Scene::init()
   //objetos.push_back(new ContCubo(200.0));
   //objetos.push_back(new TrianguloRGB(100.0));
   //objetos.push_back(new TriPyramid(100.0,200.0));
-  objetos.push_back(new Cubo(180.0));
-  objetos.push_back(new Diabolo(80.0, 140.0));
+  //objetos.push_back(new Cubo(180.0));
+  //objetos.push_back(new Diabolo(80.0, 140.0));
   objetos.push_back(new Suelo(1000.0, 1000.0, 180.0));
-  objetos.push_back(new EjesRGB(500.0));
-  objetos.push_back(new Espejo(100.0,100.0));
+  //objetos.push_back(new EjesRGB(500.0));
+  //objetos.push_back(new Espejo(100.0,100.0));
+  objetos.push_back(new Jardinera(180.0));
+  objetos.push_back(new Planta(120,180));
 }
 //-------------------------------------------------------------------------
 

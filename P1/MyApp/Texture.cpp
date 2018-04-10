@@ -34,6 +34,11 @@ bool Texture::load(const std::string & BMP_Name, GLubyte alpha) {
 	return true;
 }
 
+bool Texture::load(const std::string & BMP_Name, glm::ivec3 color, GLubyte alpha) {
+
+	return true;
+}
+
 bool Texture::loadColorBuffer(GLsizei width, GLsizei height) {
 
 	if (id == 0) init();

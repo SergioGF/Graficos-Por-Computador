@@ -267,3 +267,46 @@ void Espejo::update(GLuint timeElapsed)
 {
 	textura.loadColorBuffer(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT));
 }
+
+Jardinera::Jardinera(GLdouble x) : Entity()
+{
+	mesh = Mesh::generateContCuboTex(x);
+	textura.load("..\\Bmps\\window.bmp");
+}
+
+void Jardinera::draw()
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	textura.bind();
+	mesh->draw();
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+Planta::Planta(GLdouble w, GLdouble h) : Entity()
+{
+	mesh = Mesh::generateRectangleTex(w, h);
+	mesh2 = Mesh::generateRectangleTex(w, h);
+	textura.load("..\\Bmps\\grass.bmp");
+
+}
+void Planta::draw()
+{
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	textura.bind();
+	mesh->draw();
+	textura.unbind();
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+}
+
+void Planta::render(glm::dmat4 const& modelViewMat) {
+
+	setMvM(modelViewMat);
+	draw();
+	glMatrixMode(GL_MODELVIEW);
+	dmat4 aMat = modelViewMat * modelMat;
+	aMat = rotate(aMat, radians(45.0), glm::dvec3(1.0, 0.0, 0.0));
+	glLoadMatrixd(value_ptr(aMat));
+	textura.bind();
+	mesh2->draw();
+	textura.unbind();
+}

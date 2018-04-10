@@ -130,4 +130,25 @@ public:
 	virtual void draw();
 	virtual void update(GLuint timeElapsed);
 };
+
+class Jardinera : public Entity
+{
+public:
+	Jardinera(GLdouble x);
+	~Jardinera() { };
+	virtual void draw();
+protected:
+};
+
+class Planta : public Entity
+{
+public:
+	Planta(GLdouble w, GLdouble h);
+	~Planta() { };
+	virtual void draw();
+protected:
+	Mesh * mesh2 = nullptr;
+	virtual void render(glm::dmat4 const& modelViewMat);
+};
+
 #endif //_H_Entities_H_
