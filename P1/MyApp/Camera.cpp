@@ -103,7 +103,7 @@ void Camera::setPM()
 
 void Camera::moveLR(GLdouble cs) { // Left / Right 
 	eye = eye + (right * cs);
-	viewMat = lookAt(eye, eye + right, up);
+	viewMat = lookAt(eye, eye + front, up);
 }
 void Camera::moveFB(GLdouble cs) { // Forward / Backward   
 	eye = eye + (front * cs);
@@ -122,7 +122,7 @@ void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
 	front.z = -cos(radians(yawAux)) * cos(radians(pitchAux));
 	front = glm::normalize(front);
 	viewMat = lookAt(eye, eye + front, up);
-	setPM();
+	//setPM();
  }
 
 void Camera::actualizarFront() {

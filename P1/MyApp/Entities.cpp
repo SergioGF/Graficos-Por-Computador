@@ -271,27 +271,40 @@ void Espejo::update(GLuint timeElapsed)
 Jardinera::Jardinera(GLdouble x) : Entity()
 {
 	mesh = Mesh::generateContCuboTex(x);
-	textura.load("..\\Bmps\\window.bmp");
+	textura.load("..\\Bmps\\window.bmp",100);
 }
 
 void Jardinera::draw()
 {
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	textura.bind();
 	mesh->draw();
-	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	textura.unbind();
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 Planta::Planta(GLdouble w, GLdouble h) : Entity()
 {
 	mesh = Mesh::generateRectangleTex(w, h);
 	mesh2 = Mesh::generateRectangleTex(w, h);
-	textura.load("..\\Bmps\\grass.bmp");
+	glm::ivec3 color;
+	color.r = 0;
+	color.g = 0;
+	color.b = 0;
+	textura.load("..\\Bmps\\grass.bmp", color,0);
 
 }
 void Planta::draw()
 {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	textura.bind();
 	mesh->draw();
 	textura.unbind();
@@ -300,13 +313,35 @@ void Planta::draw()
 
 void Planta::render(glm::dmat4 const& modelViewMat) {
 
+	glDepthMask(GL_FALSE);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
 	setMvM(modelViewMat);
 	draw();
 	glMatrixMode(GL_MODELVIEW);
 	dmat4 aMat = modelViewMat * modelMat;
-	aMat = rotate(aMat, radians(45.0), glm::dvec3(1.0, 0.0, 0.0));
+	aMat = rotate(aMat, radians(45.0), glm::dvec3(0.0, 1.0, 0.0));
 	glLoadMatrixd(value_ptr(aMat));
 	textura.bind();
 	mesh2->draw();
 	textura.unbind();
+
+	glMatrixMode(GL_MODELVIEW);
+	aMat = modelViewMat * modelMat;
+	aMat = rotate(aMat, radians(90.0), glm::dvec3(0.0, 1.0, 0.0));
+	glLoadMatrixd(value_ptr(aMat));
+	textura.bind();
+	mesh2->draw();
+	textura.unbind();
+
+	glMatrixMode(GL_MODELVIEW);
+	aMat = modelViewMat * modelMat;
+	aMat = rotate(aMat, radians(135.0), glm::dvec3(0.0, 1.0, 0.0));
+	glLoadMatrixd(value_ptr(aMat));
+	textura.bind();
+	mesh2->draw();
+	textura.unbind();
+
+	glDisable(GL_BLEND);
+	glDepthMask(GL_TRUE);
 }

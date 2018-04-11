@@ -1,3 +1,2 @@
-﻿  Entities.cpp
-c:\users\sergio\desktop\master fdi\graficas por computador\practicas\p1\myapp\entities.cpp(220): warning C4244: 'inicializando': conversión de 'GLdouble' a 'int'; posible pérdida de datos
+﻿  Scene.cpp
   MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\Practicas\P1\bin\MyAppDebug.exe
