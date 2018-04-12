@@ -1,4 +1,4 @@
-#include "Texture.h"
+ï»¿#include "Texture.h"
 #include "Pixmap32RGBA.h"
 
 
@@ -12,16 +12,16 @@ void Texture::init() {
 }
 void Texture::bind() { // argumento para el modo de mezclar los colores
 	glBindTexture(GL_TEXTURE_2D, id); // activa la textura
-									  // la función de mezcla de colores no queda guardada en el objeto
+									  // la funciï¿½n de mezcla de colores no queda guardada en el objeto
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	// GL_MODULATE / GL_ADD …
+	// GL_MODULATE / GL_ADD ï¿½
 }
 
 bool Texture::load(const std::string & BMP_Name, GLubyte alpha) {
 
 	if (id == 0) init();
 	PixMap32RGBA pixMap; // var. local para cargar la imagen del archivo
-	pixMap.load_bmp24BGR(BMP_Name); // carga y añade alpha=255
+	pixMap.load_bmp24BGR(BMP_Name); // carga y aï¿½ade alpha=255
 									// carga correcta?
 	if (alpha != 255) pixMap.set_alpha(alpha);
 	w = pixMap.width();
@@ -37,14 +37,14 @@ bool Texture::load(const std::string & BMP_Name, GLubyte alpha) {
 bool Texture::load(const std::string & BMP_Name, glm::ivec3 color, GLubyte alpha) {
 	if (id == 0) init();
 	PixMap32RGBA pixMap; // var. local para cargar la imagen del archivo
-	pixMap.load_bmp24BGR(BMP_Name); // carga y añade alpha=255
+	pixMap.load_bmp24BGR(BMP_Name); // carga y aÃ±ade alpha=255
 									// carga correcta?
 	PixMap32RGBA::rgba_color color_aux;
 	color_aux.a = alpha;
 	color_aux.r = color.r;
 	color_aux.g = color.g;
 	color_aux.b = color.b;
-	if (alpha != 255) pixMap.set_colorkey_alpha(color_aux,alpha);
+	if (alpha != 255) pixMap.set_colorkey_alpha(color_aux, alpha);
 	w = pixMap.width();
 	h = pixMap.height();
 	glBindTexture(GL_TEXTURE_2D, id);
@@ -72,7 +72,7 @@ void Texture::save(const std::string & BMP_Name) {
 	GLsizei width = glutGet(GLUT_WINDOW_WIDTH);
 	GLsizei height = glutGet(GLUT_WINDOW_HEIGHT);
 	pixMap.create_pixmap(width, height);
-	glGetTexImage(GL_TEXTURE_2D,0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, pixMap.data());
 	pixMap.save_bmp24BGR(BMP_Name);
 
 }

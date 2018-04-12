@@ -4,59 +4,59 @@ using namespace glm;
 
 //-------------------------------------------------------------------------
 
-Mesh ::~Mesh(void) 
+Mesh ::~Mesh(void)
 {
-  delete[] vertices;
-  delete[] colors;
-  delete[] texCoords;
+	delete[] vertices;
+	delete[] colors;
+	delete[] texCoords;
 }
 //-------------------------------------------------------------------------
 
-void Mesh::draw() 
+void Mesh::draw()
 {
-  if (vertices != nullptr) {
-    glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(3, GL_DOUBLE, 0, vertices);  // number of coordinates per vertex, type of each coordinate 
-    if (colors != nullptr) {
-      glEnableClientState(GL_COLOR_ARRAY);
-      glColorPointer(4, GL_DOUBLE, 0, colors);   // number of coordinates per color, type of each coordinate 
-    }
-	if (texCoords != nullptr) {
-		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-		glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
+	if (vertices != nullptr) {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, 0, vertices);  // number of coordinates per vertex, type of each coordinate 
+		if (colors != nullptr) {
+			glEnableClientState(GL_COLOR_ARRAY);
+			glColorPointer(4, GL_DOUBLE, 0, colors);   // number of coordinates per color, type of each coordinate 
+		}
+		if (texCoords != nullptr) {
+			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+			glTexCoordPointer(2, GL_DOUBLE, 0, texCoords);
+		}
+
+		glDrawArrays(type, 0, numVertices);   // kind of primitives, first, count
+
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		glDisableClientState(GL_COLOR_ARRAY);
 	}
-
-    glDrawArrays(type, 0, numVertices);   // kind of primitives, first, count
-
-	  glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
-  }
 }
 //-------------------------------------------------------------------------
 
 Mesh * Mesh::generateAxesRGB(GLdouble l)
 {
-  Mesh* m = new Mesh();
-  m->type = GL_LINES;
-  m->numVertices = 6;
+	Mesh* m = new Mesh();
+	m->type = GL_LINES;
+	m->numVertices = 6;
 
-  m->vertices = new dvec3[m->numVertices];
-  m->vertices[0] = dvec3(0.0, 0.0, 0.0);   
-  m->vertices[1] = dvec3(l, 0.0, 0);
-  m->vertices[2] = dvec3(0, 0.0, 0.0);
-  m->vertices[3] = dvec3(0.0, l, 0.0); 
-  m->vertices[4] = dvec3(0.0, 0.0, 0.0);
-  m->vertices[5] = dvec3(0.0, 0.0, l);
+	m->vertices = new dvec3[m->numVertices];
+	m->vertices[0] = dvec3(0.0, 0.0, 0.0);
+	m->vertices[1] = dvec3(l, 0.0, 0);
+	m->vertices[2] = dvec3(0, 0.0, 0.0);
+	m->vertices[3] = dvec3(0.0, l, 0.0);
+	m->vertices[4] = dvec3(0.0, 0.0, 0.0);
+	m->vertices[5] = dvec3(0.0, 0.0, l);
 
-  m->colors = new dvec4[m->numVertices];
-  m->colors[0] = dvec4(1.0, 0.0, 0.0, 1.0);
-  m->colors[1] = dvec4(1.0, 0.0, 0.0, 1.0);
-  m->colors[2] = dvec4(0.0, 1.0, 0.0, 1.0);
-  m->colors[3] = dvec4(0.0, 1.0, 0.0, 1.0);
-  m->colors[4] = dvec4(0.0, 0.0, 1.0, 1.0);
-  m->colors[5] = dvec4(0.0, 0.0, 1.0, 1.0);
- 
-  return m; 
+	m->colors = new dvec4[m->numVertices];
+	m->colors[0] = dvec4(1.0, 0.0, 0.0, 1.0);
+	m->colors[1] = dvec4(1.0, 0.0, 0.0, 1.0);
+	m->colors[2] = dvec4(0.0, 1.0, 0.0, 1.0);
+	m->colors[3] = dvec4(0.0, 1.0, 0.0, 1.0);
+	m->colors[4] = dvec4(0.0, 0.0, 1.0, 1.0);
+	m->colors[5] = dvec4(0.0, 0.0, 1.0, 1.0);
+
+	return m;
 }
 //-------------------------------------------------------------------------
 
@@ -70,12 +70,12 @@ Mesh * Mesh::generateTriangle(GLdouble r)
 	m->vertices[0] = dvec3(r*cos(radians(90.0)), r*sin(radians(90.0)), 0);
 	m->vertices[1] = dvec3(r*cos(radians(210.0)), r*sin(radians(210.0)), 0);
 	m->vertices[2] = dvec3(r*cos(radians(330.0)), r*sin(radians(330.0)), 0);
-	
+
 	m->colors = new dvec4[m->numVertices];
 	m->colors[0] = dvec4(1.0, 0.0, 0.0, 1.0);
 	m->colors[1] = dvec4(1.0, 0.0, 0.0, 1.0);
 	m->colors[2] = dvec4(1.0, 0.0, 0.0, 1.0);
-	
+
 
 	return m;
 }
@@ -107,7 +107,7 @@ Mesh * Mesh::generateTriPyramid(GLdouble r, GLdouble h)
 	m->numVertices = 5;
 
 	m->vertices = new dvec3[m->numVertices];
-	m->vertices[0] = dvec3(0.0,0.0, h);
+	m->vertices[0] = dvec3(0.0, 0.0, h);
 	m->vertices[1] = dvec3(r*cos(radians(90.0)), r*sin(radians(90.0)), 0);
 	m->vertices[2] = dvec3(r*cos(radians(210.0)), r*sin(radians(210.0)), 0);
 	m->vertices[3] = dvec3(r*cos(radians(330.0)), r*sin(radians(330.0)), 0);
@@ -216,7 +216,7 @@ Mesh * Mesh::generateContCuboTex(GLdouble l)
 	return m;
 }
 
-Mesh* Mesh::generateTriPyramidTex(GLdouble r, GLdouble h) 
+Mesh* Mesh::generateTriPyramidTex(GLdouble r, GLdouble h)
 {
 	Mesh *m = generateTriPyramid(r, h);
 	m->texCoords = new dvec2[m->numVertices];
@@ -249,5 +249,4 @@ Mesh* Mesh::generateEspejoTex(GLdouble w, GLdouble h)
 	m->texCoords[3] = dvec2(1, 0);
 	return m;
 }
-
 

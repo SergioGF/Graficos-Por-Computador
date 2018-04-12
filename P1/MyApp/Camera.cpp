@@ -1,4 +1,4 @@
-#include "Camera.h"
+ï»¿#include "Camera.h"
 
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
@@ -13,91 +13,91 @@ void Viewport::setPos(GLsizei aw, GLsizei ah)
 }
 //-------------------------------------------------------------------------
 
- void Viewport::setSize(GLsizei aw, GLsizei ah) 
- { 
-   w = aw; 
-   h = ah; 
-   set(); 
- }
- //-------------------------------------------------------------------------
-
- void Viewport::set() 
- { 
-   glViewport(x, y, w, h);
- }
-//-------------------------------------------------------------------------
-
-void Camera::setAZ() 
+void Viewport::setSize(GLsizei aw, GLsizei ah)
 {
-  eye= dvec3(0, 0, 500);
-  look= dvec3(0, 0, 0);
-  up= dvec3(0, 1, 0);
-  viewMat = lookAt(eye, look, up);
-  setVM();
+	w = aw;
+	h = ah;
+	set();
 }
 //-------------------------------------------------------------------------
 
-void Camera::set3D() 
+void Viewport::set()
 {
-  eye= dvec3(500, 500, 500);
-  look= dvec3(0, 10, 0);
-  up= dvec3(0, 1, 0);
-  viewMat = lookAt(eye, look, up);
-  setVM();
+	glViewport(x, y, w, h);
 }
 //-------------------------------------------------------------------------
 
-void Camera::setVM() 
+void Camera::setAZ()
 {
-  glMatrixMode(GL_MODELVIEW);
-  glLoadMatrixd(value_ptr(viewMat));
+	eye = dvec3(0, 0, 500);
+	look = dvec3(0, 0, 0);
+	up = dvec3(0, 1, 0);
+	viewMat = lookAt(eye, look, up);
+	setVM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::pitch(GLdouble a) 
-{  
-  //viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(1.0, 0, 0));
-	rotatePY(a,0);
+void Camera::set3D()
+{
+	eye = dvec3(500, 500, 500);
+	look = dvec3(0, 10, 0);
+	up = dvec3(0, 1, 0);
+	viewMat = lookAt(eye, look, up);
+	setVM();
+}
+//-------------------------------------------------------------------------
+
+void Camera::setVM()
+{
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixd(value_ptr(viewMat));
+}
+//-------------------------------------------------------------------------
+
+void Camera::pitch(GLdouble a)
+{
+	//viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(1.0, 0, 0));
+	rotatePY(a, 0);
 }
 //-------------------------------------------------------------------------
 void Camera::yaw(GLdouble a)
 {
-  //viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 1.0, 0));
+	//viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 1.0, 0));
 	rotatePY(0, a);
 }
 //-------------------------------------------------------------------------
 void Camera::roll(GLdouble a)
 {
-  viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 0, 1.0));
+	viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 0, 1.0));
 }
 //-------------------------------------------------------------------------
 
 void Camera::scale(GLdouble s)
-{ 
-  factScale -= s; 
-  if (s < 0) s = 0.01;
-  setPM(); 
+{
+	factScale -= s;
+	if (s < 0) s = 0.01;
+	setPM();
 }
 //-------------------------------------------------------------------------
 
-void Camera::setSize(GLdouble aw, GLdouble ah) 
+void Camera::setSize(GLdouble aw, GLdouble ah)
 {
-  xRight = aw / 2.0;
-  xLeft = -xRight;
-  yTop = ah / 2.0;
-  yBot = -yTop;
- 
-  setPM();
+	xRight = aw / 2.0;
+	xLeft = -xRight;
+	yTop = ah / 2.0;
+	yBot = -yTop;
+
+	setPM();
 }
 
 //-------------------------------------------------------------------------
 
-void Camera::setPM() 
+void Camera::setPM()
 {
-  projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
-  glMatrixMode(GL_PROJECTION);
-  glLoadMatrixd(value_ptr(projMat));
-  glMatrixMode(GL_MODELVIEW);
+	projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixd(value_ptr(projMat));
+	glMatrixMode(GL_MODELVIEW);
 }
 //-------------------------------------------------------------------------
 
@@ -114,16 +114,16 @@ void Camera::moveUD(GLdouble cs) { // Up / Down
 }
 void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
 	pitchAux += incrPitch;
-	yawAux += incrYaw; // Actualizar los ángulos
-	if (pitchAux > 89.5) pitchAux = 89.5; // Limitar los ángulos
-		// Actualizar la dirección de vista
+	yawAux += incrYaw; // Actualizar los angulos
+	if (pitchAux > 89.5) pitchAux = 89.5; // Limitar los angulos
+										  // Actualizar la direccion de vista
 	front.x = sin(radians(yawAux)) * cos(radians(pitchAux));
 	front.y = sin(radians(pitchAux));
 	front.z = -cos(radians(yawAux)) * cos(radians(pitchAux));
 	front = glm::normalize(front);
 	viewMat = lookAt(eye, eye + front, up);
 	//setPM();
- }
+}
 
 void Camera::actualizarFront() {
 	front = -normalize(eye - look);

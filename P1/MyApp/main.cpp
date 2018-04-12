@@ -15,13 +15,13 @@ using namespace std;
 //---------- Global variables -------------------------------------------------------------
 
 // Viewport position and size
-Viewport viewPort(800, 600);   
+Viewport viewPort(800, 600);
 
 // Camera position, view volume and projection
-Camera camera(&viewPort);    
+Camera camera(&viewPort);
 
 // Scene entities
-Scene scene(&camera); 
+Scene scene(&camera);
 
 // Coordenadas del raton
 glm::dvec2 mCoord;
@@ -41,169 +41,161 @@ void motion(int x, int y);
 
 int main(int argc, char *argv[])
 {
-  cout << "Starting console..." << '\n';
+	cout << "Starting console..." << '\n';
 
-  // Initialization
-  glutInit(&argc, argv);
+	// Initialization
+	glutInit(&argc, argv);
 
-  glutInitContextVersion(3, 3);
-  glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);   
-  glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS); 
-  glutInitWindowSize(800, 600);   // window size
-  //glutInitWindowPosition (140, 140);
+	glutInitContextVersion(3, 3);
+	glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
+	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+	glutInitWindowSize(800, 600);   // window size
+									//glutInitWindowPosition (140, 140);
 
-  glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);   // | GLUT_STENCIL  
-  
-  int win = glutCreateWindow( "Freeglut-project" );  // window's identifier
-  
-  // Callback registration
-  glutMouseFunc(mouse);
-  glutMotionFunc(motion);
-  glutReshapeFunc(resize);
-  glutKeyboardFunc(key);
-  glutSpecialFunc(specialKey);
-  glutDisplayFunc(display);
- 
-  cout << glGetString(GL_VERSION) << '\n';
-  cout << glGetString(GL_VENDOR) << '\n';
- 
-  scene.init();    // after creating the context
-   
-  glutMainLoop(); 
-  //cin.sync();   cin.get();
-  glutDestroyWindow(win);  // Destroy the context 
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);   // | GLUT_STENCIL  
 
-  return 0;
+	int win = glutCreateWindow("Freeglut-project");  // window's identifier
+
+													 // Callback registration
+	glutMouseFunc(mouse);
+	glutMotionFunc(motion);
+	glutReshapeFunc(resize);
+	glutKeyboardFunc(key);
+	glutSpecialFunc(specialKey);
+	glutDisplayFunc(display);
+
+	cout << glGetString(GL_VERSION) << '\n';
+	cout << glGetString(GL_VENDOR) << '\n';
+
+	scene.init();    // after creating the context
+
+	glutMainLoop();
+	//cin.sync();   cin.get();
+	glutDestroyWindow(win);  // Destroy the context 
+
+	return 0;
 }
 //-------------------------------------------------------------------------
 
 void display()   // double buffer
 {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);  
-  
-  scene.render();   
-    
-  glutSwapBuffers();  
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	scene.render();
+
+	glutSwapBuffers();
 }
 //-------------------------------------------------------------------------
 
 void resize(int newWidth, int newHeight)
 {
-  // Resize Viewport 
-  viewPort.setSize(newWidth, newHeight);  
-  // Resize Scene Visible Area 
-  camera.setSize(viewPort.getW(), viewPort.getH());    // scale unchanged
+	// Resize Viewport 
+	viewPort.setSize(newWidth, newHeight);
+	// Resize Scene Visible Area 
+	camera.setSize(viewPort.getW(), viewPort.getH());    // scale unchanged
 }
 //-------------------------------------------------------------------------
 
 void key(unsigned char key, int x, int y)
 {
-  bool need_redisplay = true;
-  int x2;
-  int y2;
-  Texture texture;
-  switch (key) {
-  case 27:  // Escape key 
-    glutLeaveMainLoop();  // Freeglut's sentence for stopping glut's main loop 
-    break;
-  case '+': 
-    camera.scale(+0.01);   // zoom in  
-    break;
-  case '-':
-    camera.scale(-0.01);   // zoom out
-    break;
-  case 'l':
-	  camera.set3D(); 
-	  camera.actualizarFront();
-	  camera.actualizarRight();
-	  camera.actualizarPitch();
-	  camera.actualizarYaw();
-	  break;
-  case 'o':
-	  camera.setAZ();
-	  camera.actualizarFront();
-	  camera.actualizarRight();
-	  camera.actualizarPitch();
-	  camera.actualizarYaw();
-	  break;
-  case 'a':
-	  scene.aumentarRotacion();
-	  scene.render();
-	  break;
-  case 'f': {
-	  Texture texture;
-	  int x2 = glutGet(GLUT_WINDOW_WIDTH);
-	  int y2 = glutGet(GLUT_WINDOW_HEIGHT);
-	  texture.loadColorBuffer(x2, y2);
-	  texture.save("texturaGIC.bmp");
-  }
-	  //scene.saveImage();
-	  break;
-  case 'W':
-	  camera.moveFB(80.0);
-	  camera.actualizarFront();
-	  break;
-  case 'A':
-	  camera.moveLR(-3.0);
-	  camera.actualizarRight();
-	  break;
-  case 'S':
-	  camera.moveFB(-80.0);
-	  camera.actualizarFront();
-	  break;
-  case 'D':
-	  camera.moveLR(3.0);
-	  camera.actualizarRight();
-	  break;
-  case 'p':
-	  camera.setPrj();
-	  camera.actualizarFront();
-	  camera.actualizarRight();
-	  camera.actualizarPitch();
-	  camera.actualizarYaw();
-	  break;
-  default:
-    need_redisplay = false;
-    break;
-  }//switch
+	bool need_redisplay = true;
+	int x2;
+	int y2;
+	Texture texture;
+	switch (key) {
+	case 27:  // Escape key 
+		glutLeaveMainLoop();  // Freeglut's sentence for stopping glut's main loop 
+		break;
+	case '+':
+		camera.scale(+0.01);   // zoom in  
+		break;
+	case '-':
+		camera.scale(-0.01);   // zoom out
+		break;
+	case 'l':
+		camera.set3D();
+		camera.actualizarFront();
+		camera.actualizarRight();
+		camera.actualizarPitch();
+		camera.actualizarYaw();
+		break;
+	case 'o':
+		camera.setAZ();
+		camera.actualizarFront();
+		camera.actualizarRight();
+		camera.actualizarPitch();
+		camera.actualizarYaw();
+		break;
+	case 'a':
+		scene.aumentarRotacion();
+		scene.render();
+		break;
+	case 'f': {
+		Texture texture;
+		int x2 = glutGet(GLUT_WINDOW_WIDTH);
+		int y2 = glutGet(GLUT_WINDOW_HEIGHT);
+		texture.loadColorBuffer(x2, y2);
+		texture.save("texturaGIC.bmp");
+	}
+			  //scene.saveImage();
+			  break;
+	case 'W':
+		camera.moveFB(80.0);
+		camera.actualizarFront();
+		break;
+	case 'A':
+		camera.moveLR(-3.0);
+		camera.actualizarRight();
+		break;
+	case 'S':
+		camera.moveFB(-80.0);
+		camera.actualizarFront();
+		break;
+	case 'D':
+		camera.moveLR(3.0);
+		camera.actualizarRight();
+		break;
+	case 'p':
+		camera.setPrj();
+		camera.actualizarFront();
+		camera.actualizarRight();
+		camera.actualizarPitch();
+		camera.actualizarYaw();
+		break;
+	default:
+		need_redisplay = false;
+		break;
+	}//switch
 
-  if (need_redisplay)
-    glutPostRedisplay();
+	if (need_redisplay)
+		glutPostRedisplay();
 }
 //-------------------------------------------------------------------------
 
 void specialKey(int key, int x, int y)
 {
-  bool need_redisplay = true;
-
-  switch (key) {
-  case GLUT_KEY_RIGHT:
-    camera.pitch(1);   // rotate 1 on the X axis
+	bool need_redisplay = true;
+	switch (key) {
+	case GLUT_KEY_RIGHT:
+		camera.pitch(1);   // rotate 1 on the X axis
+		break;
+	case GLUT_KEY_LEFT:
+		camera.yaw(1);     // rotate 1 on the Y axis 
+		break;
+	case GLUT_KEY_UP:
+		camera.roll(1);    // rotate 1 on the Z axis
+		break;
+	case GLUT_KEY_DOWN:
+		camera.roll(-1);   // rotate -1 on the Z axis
+		break;
+	default:
+		need_redisplay = false;
+		break;
+	}//switch
 	camera.actualizarFront();
 	camera.actualizarRight();
-    break;
-  case GLUT_KEY_LEFT:
-    camera.yaw(1);     // rotate 1 on the Y axis 
-	camera.actualizarFront();
-	camera.actualizarRight();
-    break;
-  case GLUT_KEY_UP:
-    camera.roll(1);    // rotate 1 on the Z axis
-	camera.actualizarFront();
-	camera.actualizarRight();
-    break;
-  case GLUT_KEY_DOWN:
-    camera.roll(-1);   // rotate -1 on the Z axis
-	camera.actualizarFront();
-	camera.actualizarRight();
-    break;
-  default:
-    need_redisplay = false;
-    break;
-  }//switch
-
-  if (need_redisplay)
-    glutPostRedisplay();
+	if (need_redisplay)
+		glutPostRedisplay();
 }
 
 void motion(int x, int y) {
@@ -212,7 +204,6 @@ void motion(int x, int y) {
 	mOffset = (mCoord - mOffset) * 0.05; // sensitivity = 0.05
 	camera.rotatePY(mOffset.y, mOffset.x);
 	glutPostRedisplay();
-	//camera.actualizarFront();
 }
 
 void mouse(int button, int state, int x, int y) {
@@ -220,4 +211,3 @@ void mouse(int button, int state, int x, int y) {
 	mCoord.y = glutGet(GLUT_WINDOW_HEIGHT) - y;
 }
 //-------------------------------------------------------------------------
-

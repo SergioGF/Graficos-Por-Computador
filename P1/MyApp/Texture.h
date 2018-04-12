@@ -1,4 +1,4 @@
-//#pragma once
+﻿//#pragma once
 #ifndef _H_Texture_H_
 #define _H_Texture_H_
 
@@ -9,7 +9,7 @@
 
 //-------------------------------------------------------------------------
 
-class Texture // utiliza la clase PixMap32RGBA para el m�todo load
+class Texture // utiliza la clase PixMap32RGBA para el método load
 {
 public:
 	Texture() : w(0), h(0), id(0) {};
@@ -27,6 +27,3 @@ protected:
 	void init();
 };
 #endif // !_H_Texture_H_
-
-
-

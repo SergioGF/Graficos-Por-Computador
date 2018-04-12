@@ -9,24 +9,23 @@
 
 //-------------------------------------------------------------------------
 
-class Scene	
-{ 
+class Scene
+{
 public:
-    Scene(Camera* cam): camera(cam) { };
-	  ~Scene();
-    void init();
-	  void render();    
-	  void aumentarRotacion();
-	  void update(GLuint timeElapsed);
-	  //void saveImage();
-	  
+	Scene(Camera* cam) : camera(cam) { };
+	~Scene();
+	void init();
+	void render();
+	void aumentarRotacion();
+	void update(GLuint timeElapsed);
+	//void saveImage();
+
 protected:
-	  Camera* camera;
-	  Viewport* viewport;
-	  std::vector<Entity*> objetos;
+	Camera * camera;
+	Viewport* viewport;
+	std::vector<Entity*> objetos;
 };
 
 //-------------------------------------------------------------------------
 
 #endif //_H_Scene_H_
-

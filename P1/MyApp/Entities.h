@@ -9,35 +9,35 @@
 
 //-------------------------------------------------------------------------
 
-class Entity 
+class Entity
 {
 public:
-  Entity() : modelMat(1.0) { };
-  virtual ~Entity() { delete mesh; };
+	Entity() : modelMat(1.0) { };
+	virtual ~Entity() { delete mesh; };
 
-  virtual void render(glm::dmat4 const& modelViewMat);
-  virtual void RotacionDiabolo();
-  virtual void update(GLuint timeElapsed);
-  //virtual void guardarImagen();
-  
+	virtual void render(glm::dmat4 const& modelViewMat);
+	virtual void RotacionDiabolo();
+	virtual void update(GLuint timeElapsed);
+	//virtual void guardarImagen();
+
 protected:
-  Mesh* mesh = nullptr;
-  glm::dmat4 modelMat;
-  GLdouble ang = 60.0;
-  Texture textura;
-  Texture textura2;
-  virtual void draw();
-  virtual void setMvM(glm::dmat4 const& modelViewMat);
+	Mesh * mesh = nullptr;
+	glm::dmat4 modelMat;
+	GLdouble ang = 60.0;
+	Texture textura;
+	Texture textura2;
+	virtual void draw();
+	virtual void setMvM(glm::dmat4 const& modelViewMat);
 };
 
 //-------------------------------------------------------------------------
 
-class EjesRGB : public Entity 
+class EjesRGB : public Entity
 {
 public:
-  EjesRGB(GLdouble l);
-  ~EjesRGB() { };
-  virtual void draw();
+	EjesRGB(GLdouble l);
+	~EjesRGB() { };
+	virtual void draw();
 };
 
 //-------------------------------------------------------------------------
@@ -81,12 +81,12 @@ public:
 	~Diabolo() { };
 	virtual void draw();
 	void RotacionDiabolo();
-	virtual void render(glm:: dmat4 const& modelViewMat);
+	virtual void render(glm::dmat4 const& modelViewMat);
 	virtual void update(GLuint timeElapsed);
 protected:
 	GLdouble radio;
 	GLdouble altura;
-	
+
 };
 
 class Rectangle : public Entity
@@ -99,11 +99,11 @@ public:
 
 class Cubo : public Entity
 {
- public:
-	 Cubo(GLdouble x);
-	 ~Cubo() { };
-	 virtual void draw();
-	 virtual void render(glm::dmat4 const& modelViewMat);
+public:
+	Cubo(GLdouble x);
+	~Cubo() { };
+	virtual void draw();
+	virtual void render(glm::dmat4 const& modelViewMat);
 protected:
 	Mesh * mesh2 = nullptr;
 	GLdouble altura;
@@ -134,20 +134,29 @@ public:
 class Jardinera : public Entity
 {
 public:
-	Jardinera(GLdouble x);
+	Jardinera(GLdouble x, GLdouble w, GLdouble h);
 	~Jardinera() { };
 	virtual void draw();
 protected:
+	GLdouble w_suelo;
+	GLdouble h_suelo;
+	GLdouble medida;
+	virtual void render(glm::dmat4 const& modelViewMat);
 };
 
 class Planta : public Entity
 {
 public:
-	Planta(GLdouble w, GLdouble h);
+	Planta(GLdouble w, GLdouble h, GLdouble w_s, GLdouble h_s);
 	~Planta() { };
 	virtual void draw();
 protected:
 	Mesh * mesh2 = nullptr;
+	GLdouble w_suelo;
+	GLdouble h_suelo;
+	GLdouble w_p;
+	GLdouble h_p;
+	GLdouble medida;
 	virtual void render(glm::dmat4 const& modelViewMat);
 };
 
