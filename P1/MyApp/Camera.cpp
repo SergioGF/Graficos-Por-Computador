@@ -34,6 +34,10 @@ void Camera::setAZ()
 	up = dvec3(0, 1, 0);
 	viewMat = lookAt(eye, look, up);
 	setVM();
+	actualizarFront();
+	actualizarRight();
+	actualizarPitch();
+	actualizarYaw();
 }
 //-------------------------------------------------------------------------
 
@@ -44,6 +48,10 @@ void Camera::set3D()
 	up = dvec3(0, 1, 0);
 	viewMat = lookAt(eye, look, up);
 	setVM();
+	actualizarFront();
+	actualizarRight();
+	actualizarPitch();
+	actualizarYaw();
 }
 //-------------------------------------------------------------------------
 
@@ -58,17 +66,23 @@ void Camera::pitch(GLdouble a)
 {
 	//viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(1.0, 0, 0));
 	rotatePY(a, 0);
+	actualizarFront();
+	actualizarRight();
 }
 //-------------------------------------------------------------------------
 void Camera::yaw(GLdouble a)
 {
 	//viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 1.0, 0));
 	rotatePY(0, a);
+	actualizarFront();
+	actualizarRight();
 }
 //-------------------------------------------------------------------------
 void Camera::roll(GLdouble a)
 {
 	viewMat = rotate(viewMat, glm::radians(-a), glm::dvec3(0, 0, 1.0));
+	actualizarFront();
+	actualizarRight();
 }
 //-------------------------------------------------------------------------
 
@@ -86,7 +100,6 @@ void Camera::setSize(GLdouble aw, GLdouble ah)
 	xLeft = -xRight;
 	yTop = ah / 2.0;
 	yBot = -yTop;
-
 	setPM();
 }
 
@@ -94,23 +107,34 @@ void Camera::setSize(GLdouble aw, GLdouble ah)
 
 void Camera::setPM()
 {
-	projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
+	if(orto == true)
+		projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
+	else
+		projMat = frustum(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(value_ptr(projMat));
 	glMatrixMode(GL_MODELVIEW);
+	/*
+	projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixd(value_ptr(projMat));
+	glMatrixMode(GL_MODELVIEW);*/
 }
 //-------------------------------------------------------------------------
 
 void Camera::moveLR(GLdouble cs) { // Left / Right 
 	eye = eye + (right * cs);
 	viewMat = lookAt(eye, eye + front, up);
+	actualizarRight();
 }
 void Camera::moveFB(GLdouble cs) { // Forward / Backward   
 	eye = eye + (front * cs);
 	viewMat = lookAt(eye, eye + front, up);
+	actualizarFront();
 }
 void Camera::moveUD(GLdouble cs) { // Up / Down 
-
+	eye = eye + (up * cs);
+	viewMat = lookAt(eye, eye + front, up);
 }
 void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
 	pitchAux += incrPitch;
@@ -122,7 +146,6 @@ void Camera::rotatePY(GLdouble incrPitch, GLdouble incrYaw) {
 	front.z = -cos(radians(yawAux)) * cos(radians(pitchAux));
 	front = glm::normalize(front);
 	viewMat = lookAt(eye, eye + front, up);
-	//setPM();
 }
 
 void Camera::actualizarFront() {
@@ -133,8 +156,9 @@ void Camera::actualizarRight() {
 	right = normalize(cross(up, normalize(eye - look)));
 }
 
+
 void Camera::setPrj() {
-	if (orto == false) { //ortogonal
+	/*if (orto == false) { //ortogonal
 		orto = true;
 		glMatrixMode(GL_PROJECTION);
 		projMat = ortho(xLeft, xRight, yBot, yTop, yTop, farVal);
@@ -148,7 +172,24 @@ void Camera::setPrj() {
 		projMat = frustum(xLeft, xRight, yBot, yTop, yTop, farVal);
 		glLoadMatrixd(value_ptr(projMat));
 		glMatrixMode(GL_MODELVIEW);
+	}*/
+	
+	if (orto == false) { //ortogonal
+		orto = true;
+		glMatrixMode(GL_PROJECTION);
+		projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, yTop*factScale, farVal*factScale);
+		glLoadMatrixd(value_ptr(projMat));
+		glMatrixMode(GL_MODELVIEW);
+
 	}
+	else {
+		orto = false; //perspectiva
+		glMatrixMode(GL_PROJECTION);
+		projMat = frustum(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, yTop*factScale, farVal*factScale);
+		glLoadMatrixd(value_ptr(projMat));
+		glMatrixMode(GL_MODELVIEW);
+	}
+	
 }
 
 void Camera::actualizarPitch() {

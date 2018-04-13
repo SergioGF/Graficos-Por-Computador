@@ -69,10 +69,10 @@ protected:
 	glm::dvec3 up = { 0.0, 1.0, 0.0 };
 	glm::dmat4 viewMat;  // inverse
 
-						 /*
-						 front = -n
-						 n (z) = normalize(eye � look) // -n es la direcci�n de vista
-						 */
+	/*
+	front = -n
+	n (z) = normalize(eye - look) // -n es la direccion de vista
+	*/
 	glm::dvec3 front = -normalize(eye - look);
 
 	/*

@@ -50,13 +50,13 @@ int main(int argc, char *argv[])
 	glutInitContextProfile(GLUT_COMPATIBILITY_PROFILE);
 	glutSetOption(GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
 	glutInitWindowSize(800, 600);   // window size
-									//glutInitWindowPosition (140, 140);
+	//glutInitWindowPosition (140, 140);
 
-	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);   // | GLUT_STENCIL  
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);   // | GLUT_STENCIL
 
 	int win = glutCreateWindow("Freeglut-project");  // window's identifier
 
-													 // Callback registration
+	// Callback registration
 	glutMouseFunc(mouse);
 	glutMotionFunc(motion);
 	glutReshapeFunc(resize);
@@ -114,17 +114,9 @@ void key(unsigned char key, int x, int y)
 		break;
 	case 'l':
 		camera.set3D();
-		camera.actualizarFront();
-		camera.actualizarRight();
-		camera.actualizarPitch();
-		camera.actualizarYaw();
 		break;
 	case 'o':
 		camera.setAZ();
-		camera.actualizarFront();
-		camera.actualizarRight();
-		camera.actualizarPitch();
-		camera.actualizarYaw();
 		break;
 	case 'a':
 		scene.aumentarRotacion();
@@ -141,19 +133,21 @@ void key(unsigned char key, int x, int y)
 			  break;
 	case 'W':
 		camera.moveFB(80.0);
-		camera.actualizarFront();
 		break;
 	case 'A':
 		camera.moveLR(-3.0);
-		camera.actualizarRight();
 		break;
 	case 'S':
 		camera.moveFB(-80.0);
-		camera.actualizarFront();
 		break;
 	case 'D':
 		camera.moveLR(3.0);
-		camera.actualizarRight();
+		break;
+	case 'R':
+		camera.moveUD(3.0);
+		break;
+	case 'F':
+		camera.moveUD(-3.0);
 		break;
 	case 'p':
 		camera.setPrj();
@@ -192,8 +186,6 @@ void specialKey(int key, int x, int y)
 		need_redisplay = false;
 		break;
 	}//switch
-	camera.actualizarFront();
-	camera.actualizarRight();
 	if (need_redisplay)
 		glutPostRedisplay();
 }

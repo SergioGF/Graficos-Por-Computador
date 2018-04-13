@@ -218,6 +218,7 @@ void Cubo::render(glm::dmat4 const& modelViewMat) {
 	glMatrixMode(GL_MODELVIEW);
 	dmat4 aMat = modelViewMat * modelMat;
 	int pend = (altura * 15) / 100;
+	aMat = translate(aMat, glm::dvec3(0, altura - pend, -pend));
 	aMat = rotate(aMat, radians(45.0), glm::dvec3(1.0, 0.0, 0.0));
 	glLoadMatrixd(value_ptr(aMat));
 	textura.bind();
