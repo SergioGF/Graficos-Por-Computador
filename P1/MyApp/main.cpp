@@ -119,7 +119,7 @@ void key(unsigned char key, int x, int y)
 		camera.setAZ();
 		break;
 	case 'a':
-		scene.aumentarRotacion();
+		scene.aumentarRotacion(); //Rotación diábolo
 		scene.render();
 		break;
 	case 'f': {

@@ -112,15 +112,6 @@ Mesh * Mesh::generateTriPyramid(GLdouble r, GLdouble h)
 	m->vertices[2] = dvec3(r*cos(radians(210.0)), r*sin(radians(210.0)), 0);
 	m->vertices[3] = dvec3(r*cos(radians(330.0)), r*sin(radians(330.0)), 0);
 	m->vertices[4] = dvec3(r*cos(radians(90.0)), r*sin(radians(90.0)), 0);
-
-	/*m->colors = new dvec4[m->numVertices];
-	m->colors[0] = dvec4(1.0, 0.0, 0.0, 1.0);
-	m->colors[1] = dvec4(0.0, 1.0, 0.0, 1.0);
-	m->colors[2] = dvec4(0.0, 0.0, 1.0, 1.0);
-	m->colors[3] = dvec4(0.0, 0.0, 1.0, 1.0);
-	m->colors[4] = dvec4(0.0, 0.0, 1.0, 1.0);*/
-
-
 	return m;
 }
 
@@ -167,12 +158,6 @@ Mesh * Mesh::generateRectangle(GLdouble w, GLdouble h)
 	m->numVertices = 4;
 
 	m->vertices = new dvec3[m->numVertices];
-	/*m->vertices[0] = dvec3(h*cos(radians(45.0)), w*sin(radians(45.0)), 0);
-	m->vertices[1] = dvec3(h*cos(radians(135.0)), w*sin(radians(135.0)), 0);
-	m->vertices[2] = dvec3(h*cos(radians(225.0)), w*sin(radians(225.0)), 0);
-	m->vertices[3] = dvec3(h*cos(radians(315.0)), w*sin(radians(315.0)), 0);
-	m->vertices[4] = dvec3(h*cos(radians(45.0)), w*sin(radians(45.0)), 0);*/
-
 	m->vertices[0] = dvec3(-h / 2, w / 2, 0);
 	m->vertices[1] = dvec3(-h / 2, -w / 2, 0);
 	m->vertices[2] = dvec3(h / 2, w / 2, 0);

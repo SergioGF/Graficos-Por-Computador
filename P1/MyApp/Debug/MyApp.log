@@ -1,2 +1,13 @@
-﻿  Scene.cpp
-  MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\Practicas\P1\bin\MyAppDebug.exe
+﻿  Texture.cpp
+  Camera.cpp
+  Scene.cpp
+  Pixmap32RGBA.cpp
+  Mesh.cpp
+  main.cpp
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasv2\p1\myapp\main.cpp(103): warning C4101: 'y2': variable local sin referencia
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasv2\p1\myapp\main.cpp(102): warning C4101: 'x2': variable local sin referencia
+  Entities.cpp
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasv2\p1\myapp\entities.cpp(220): warning C4244: 'inicializando': conversión de 'GLdouble' a 'int'; posible pérdida de datos
+  Generando código...
+  LINK : no se encontró C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\Practicasv2\P1\bin\MyAppDebug.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
+  MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\Practicasv2\P1\bin\MyAppDebug.exe

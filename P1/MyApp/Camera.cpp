@@ -107,18 +107,13 @@ void Camera::setSize(GLdouble aw, GLdouble ah)
 
 void Camera::setPM()
 {
-	if(orto == true)
+	if(orto == true) //ortogonal
 		projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
-	else
+	else //perspectiva
 		projMat = frustum(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(value_ptr(projMat));
 	glMatrixMode(GL_MODELVIEW);
-	/*
-	projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixd(value_ptr(projMat));
-	glMatrixMode(GL_MODELVIEW);*/
 }
 //-------------------------------------------------------------------------
 
@@ -158,22 +153,6 @@ void Camera::actualizarRight() {
 
 
 void Camera::setPrj() {
-	/*if (orto == false) { //ortogonal
-		orto = true;
-		glMatrixMode(GL_PROJECTION);
-		projMat = ortho(xLeft, xRight, yBot, yTop, yTop, farVal);
-		glLoadMatrixd(value_ptr(projMat));
-		glMatrixMode(GL_MODELVIEW);
-
-	}
-	else {
-		orto = false; //perspectiva
-		glMatrixMode(GL_PROJECTION);
-		projMat = frustum(xLeft, xRight, yBot, yTop, yTop, farVal);
-		glLoadMatrixd(value_ptr(projMat));
-		glMatrixMode(GL_MODELVIEW);
-	}*/
-	
 	if (orto == false) { //ortogonal
 		orto = true;
 		glMatrixMode(GL_PROJECTION);
