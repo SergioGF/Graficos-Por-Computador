@@ -86,7 +86,6 @@ public:
 protected:
 	GLdouble radio;
 	GLdouble altura;
-
 };
 
 class Rectangle : public Entity
@@ -95,6 +94,7 @@ public:
 	Rectangle(GLdouble w, GLdouble h);
 	~Rectangle() { };
 	virtual void draw();
+protected:
 };
 
 class Cubo : public Entity
@@ -102,7 +102,9 @@ class Cubo : public Entity
 public:
 	Cubo(GLdouble x);
 	~Cubo() { };
-	virtual void draw();
+	virtual void drawMesh();
+	virtual void drawMeshAux();
+	virtual void drawMeshAux2();
 	virtual void render(glm::dmat4 const& modelViewMat);
 protected:
 	Mesh * mesh2 = nullptr;
@@ -112,13 +114,11 @@ protected:
 class Suelo : public Entity
 {
 public:
-	Suelo(GLdouble w, GLdouble h, GLdouble a);
+	Suelo(GLdouble w, GLdouble h);
 	~Suelo() { };
 	virtual void draw();
-	virtual void render(glm::dmat4 const& modelViewMat);
 
 protected:
-	GLdouble altura;
 };
 
 
@@ -129,6 +129,8 @@ public:
 	~Espejo() { };
 	virtual void draw();
 	virtual void update(GLuint timeElapsed);
+
+protected:
 };
 
 class Jardinera : public Entity
@@ -141,13 +143,12 @@ protected:
 	GLdouble w_suelo;
 	GLdouble h_suelo;
 	GLdouble medida;
-	virtual void render(glm::dmat4 const& modelViewMat);
 };
 
 class Planta : public Entity
 {
 public:
-	Planta(GLdouble w, GLdouble h, GLdouble w_s, GLdouble h_s);
+	Planta(GLdouble h);
 	~Planta() { };
 	virtual void draw();
 protected:

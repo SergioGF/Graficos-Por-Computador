@@ -107,68 +107,57 @@ void ContCubo::draw()
 
 Diabolo::Diabolo(GLdouble r, GLdouble h) : Entity()
 {
+	modelMat = translate(modelMat, dvec3(250, 0, -150));
+	modelMat = rotate(modelMat, radians(30.0), dvec3(0, 1, 0));
+	altura = h;
 	mesh = Mesh::generateTriPyramidTex(r, h);
 	textura.load("..\\Bmps\\floris.bmp");
-	radio = r;
-	altura = h;
+	//    texture.load("..\\Bmps\\floris.bmp");
 }
+//-------------------------------------------------------------------------
 
 void Diabolo::draw()
 {
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	textura.bind();
 	mesh->draw();
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	textura.unbind();
+}
+
+void Diabolo::render(const glm::dmat4 &modelViewMat) {
+	glMatrixMode(GL_MODELVIEW);
+	dmat4 aMat = modelViewMat * modelMat;
+	aMat = translate(aMat, dvec3(0, 0, -altura));
+
+	glLoadMatrixd(value_ptr(aMat));
+	//    glColor3d(0.0, 0.0, 0.0);
+	draw();
+
+	aMat = rotate(aMat, radians(180.0), dvec3(0.0, 0.0, 1.0));
+	glLoadMatrixd(value_ptr(aMat));
+	//    glColor3d(1.0, 0.0, 0.0);
+	draw();
+
+	aMat = modelViewMat * modelMat;
+	aMat = rotate(aMat, radians(180.0), dvec3(0.0, 1.0, 0.0));
+	aMat = translate(aMat, dvec3(0, 0, -altura));
+	glLoadMatrixd(value_ptr(aMat));
+	//    glColor3d(0.0, 0.0, 1.0);
+	draw();
+
+	aMat = rotate(aMat, radians(180.0), dvec3(0.0, 0.0, 1.0));
+	glLoadMatrixd(value_ptr(aMat));
+	//    glColor3d(0.0, 1.0, 0.0);
+	draw();
 }
 
 void Diabolo::RotacionDiabolo() {
-	ang = ang + 10;
+	glMatrixMode(GL_MODELVIEW);
+	modelMat = rotate(modelMat, radians(2.0), dvec3(0.0, 0.0, 1.0));
+	glLoadMatrixd(value_ptr(modelMat));
 }
 
-void Diabolo::update(GLuint timeElapsed)
-{
+void Diabolo::update(GLuint timeElapsed) {
 	RotacionDiabolo();
-}
-void Diabolo::render(glm::dmat4 const& modelViewMat)
-{
-	glMatrixMode(GL_MODELVIEW);
-	dmat4 aMat = modelViewMat * modelMat;
-	aMat = translate(aMat, glm::dvec3(-200, 0.0, -altura));
-	aMat = rotate(aMat, radians(ang), glm::dvec3(0.0, 0.0, 1.0));
-	glLoadMatrixd(value_ptr(aMat));
-	glColor3d(1.0, 0.0, 0.0);
-	textura.bind();
-	draw();
-	textura.unbind();
-
-	glMatrixMode(GL_MODELVIEW);
-	//aMat = rotate(aMat, radians(60.0),glm::dvec3(0.0,0.0,1.0));
-	aMat = rotate(aMat, radians(180.0), glm::dvec3(0.0, 0.0, 1.0));
-	glLoadMatrixd(value_ptr(aMat));
-	glColor3d(0.0, 1.0, 0.0);
-	textura.bind();
-	draw();
-	textura.unbind();
-
-	glMatrixMode(GL_MODELVIEW);
-	aMat = modelViewMat * modelMat;
-	aMat = translate(aMat, glm::dvec3(-200, 0.0, altura));
-	aMat = rotate(aMat, radians(180.0), glm::dvec3(0.0, 1.0, 0.0));
-	aMat = rotate(aMat, radians(ang), glm::dvec3(0.0, 0.0, 0.1));
-	//aMat = rotate(aMat, radians(ang+120.0), glm::dvec3(0.0, 1.0, 0.0));
-	glLoadMatrixd(value_ptr(aMat));
-	glColor3d(0.0, 0.0, 1.0);
-	textura.bind();
-	mesh->draw();
-	textura.unbind();
-
-	glMatrixMode(GL_MODELVIEW);
-	aMat = rotate(aMat, radians(180.0), glm::dvec3(0.0, 0.0, 1.0));
-	//aMat = rotate(aMat, radians(ang+120.0), glm::dvec3(0.0, 0.0, 1.0));
-	glLoadMatrixd(value_ptr(aMat));
-	glColor3d(0.0, 0.0, 0.0);
-	textura.bind();
-	mesh->draw();
-	textura.unbind();
 }
 
 Rectangle::Rectangle(GLdouble w, GLdouble h) : Entity()
@@ -182,55 +171,70 @@ void Rectangle::draw()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-Cubo::Cubo(GLdouble x) : Entity()
+Cubo::Cubo(GLdouble h) : Entity()
 {
-	mesh = Mesh::generateContCuboTex(x);
-	mesh2 = Mesh::generateRectangleTex(x, x);
+	altura = h;
+	modelMat = translate(modelMat, dvec3(-altura / 2, 0, 0));
 	textura.load("..\\Bmps\\container.bmp");
 	textura2.load("..\\Bmps\\chuches.bmp");
-	altura = x;
+	//    texture.load("..\\Bmps\\container.bmp");
+	mesh = Mesh::generateContCuboTex(h);
+	mesh2 = Mesh::generateRectangleTex(h, h);
 }
 
-void Cubo::draw()
+void Cubo::drawMesh()
 {
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-	glCullFace(GL_BACK);
-	glEnable(GL_CULL_FACE);
 	textura.bind();
 	mesh->draw();
-	glDisable(GL_CULL_FACE);
-	glCullFace(GL_FRONT);
-	glEnable(GL_CULL_FACE);
-	textura2.bind();
-	glDisable(GL_CULL_FACE);
-	mesh->draw();
 	textura.unbind();
-	textura2.unbind();
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void Cubo::render(glm::dmat4 const& modelViewMat) {
-
-	setMvM(modelViewMat);
-	draw();
-	//glPolygonMode(GL_FRONT, GL_FILL);
-	//glPolygonMode(GL_BACK, GL_POINT);
-	glMatrixMode(GL_MODELVIEW);
-	dmat4 aMat = modelViewMat * modelMat;
-	int pend = (altura * 15) / 100;
-	aMat = translate(aMat, glm::dvec3(0, altura - pend, -pend));
-	aMat = rotate(aMat, radians(45.0), glm::dvec3(1.0, 0.0, 0.0));
-	glLoadMatrixd(value_ptr(aMat));
+void Cubo::drawMeshAux()
+{
 	textura.bind();
 	mesh2->draw();
 	textura.unbind();
 }
 
-Suelo::Suelo(GLdouble w, GLdouble h, GLdouble a) : Entity()
+void Cubo::drawMeshAux2()
 {
+	textura2.bind();
+	mesh->draw();
+	textura2.unbind();
+}
+
+void Cubo::render(const glm::dmat4 &modelViewMat) {
+	glMatrixMode(GL_MODELVIEW);
+	dmat4 aMat = modelViewMat * modelMat;
+	glLoadMatrixd(value_ptr(aMat));
+	//para poner textura por dentro y por fuera
+	glEnable(GL_CULL_FACE);
+	glPolygonMode(GL_FRONT, GL_FILL);
+	drawMesh();
+	glDisable(GL_CULL_FACE);
+	glPolygonMode(GL_BACK, GL_FILL);
+	drawMeshAux2();
+
+	//glPolygonMode(GL_FRONT, GL_LINE);
+	//glPolygonMode(GL_BACK, GL_POINT);
+
+	aMat = modelViewMat * modelMat;
+	aMat = translate(aMat, dvec3(0, altura*0.85, 0));
+	aMat = translate(aMat, dvec3(0, 0, -(altura*0.15)));
+	aMat = rotate(aMat, radians(45.0), dvec3(1.0, 0.0, 0.0));
+
+	glLoadMatrixd(value_ptr(aMat));
+	drawMeshAux();
+	glPolygonMode(GL_FRONT, GL_FILL);
+
+}
+
+Suelo::Suelo(GLdouble w, GLdouble h) : Entity()
+{
+	modelMat = translate(modelMat, dvec3(0, -100, 0));
+	modelMat = rotate(modelMat, radians(90.0), dvec3(1, 0, 0));
 	mesh = Mesh::generateSueloTex(w, h);
 	textura.load("..\\Bmps\\baldosaC.bmp");
-	altura = a;
 }
 void Suelo::draw()
 {
@@ -241,16 +245,6 @@ void Suelo::draw()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void Suelo::render(glm::dmat4 const& modelViewMat) {
-	setMvM(modelViewMat);
-	glMatrixMode(GL_MODELVIEW);
-	dmat4 aMat = modelViewMat * modelMat;
-	aMat = rotate(aMat, radians(90.0), glm::dvec3(1.0, 0.0, 0.0));
-	aMat = translate(aMat, glm::dvec3(0.0, 0.0, altura / 2));
-	glLoadMatrixd(value_ptr(aMat));
-	draw();
-
-}
 
 Espejo::Espejo(GLdouble w, GLdouble h) : Entity()
 {
@@ -270,6 +264,7 @@ void Espejo::update(GLuint timeElapsed)
 
 Jardinera::Jardinera(GLdouble x, GLdouble w, GLdouble h) : Entity()
 {
+	modelMat = translate(modelMat, dvec3(410.0, (-x / 2) + 100, -410.0));
 	mesh = Mesh::generateContCuboTex(x);
 	textura.load("..\\Bmps\\window.bmp", 100);
 	medida = x;
@@ -291,82 +286,41 @@ void Jardinera::draw()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void Jardinera::render(glm::dmat4 const& modelViewMat) {
-	setMvM(modelViewMat);
-	dmat4 aMat = modelViewMat * modelMat;
-	GLdouble newx = (h_suelo / 2) - medida/2;
-	GLdouble newz = -(w_suelo / 2) + medida / 2;
-	//GLdouble newz = 0;
-	aMat = translate(aMat, glm::dvec3(newx, 0.0, newz));
-	glLoadMatrixd(value_ptr(aMat));
-	draw();
-}
-Planta::Planta(GLdouble w, GLdouble h, GLdouble w_s, GLdouble h_s) : Entity()
+
+
+Planta::Planta(GLdouble l) : Entity()
 {
-	mesh = Mesh::generateRectangleTex(w, h);
-	mesh2 = Mesh::generateRectangleTex(w, h);
-	glm::ivec3 color;
-	color.r = 0;
-	color.g = 0;
-	color.b = 0;
-	textura.load("..\\Bmps\\grass.bmp", color, 0);
-	w_suelo = w_s;
-	h_suelo = h_s;
-	h_p = h;
-	w_p = w;
+	modelMat = translate(modelMat, dvec3(410.0, (-l / 2) + 100.0, -410.0));
+	textura.load("..\\Bmps\\grass.bmp", ivec3(0, 0, 0), 0);
+	mesh = Mesh::generateRectangleTex(l, l);
 }
+//-------------------------------------------------------------------------
+
 void Planta::draw()
 {
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glDepthMask(GL_FALSE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	textura.bind();
 	mesh->draw();
 	textura.unbind();
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-}
-
-void Planta::render(glm::dmat4 const& modelViewMat) {
-	GLdouble newx = (w_suelo / 2) - w_p/2;
-	GLdouble newz = -(h_suelo / 2) + h_p / 2;
-	//GLdouble newz = 0;
-	glDepthMask(GL_FALSE);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	setMvM(modelViewMat);
-	dmat4 aMat = modelViewMat * modelMat;
-	aMat = translate(aMat, glm::dvec3(newx, 0.0, newz));
-	mesh2->draw();
-	glMatrixMode(GL_MODELVIEW);
-	aMat = rotate(aMat, radians(45.0), glm::dvec3(0.0, 1.0, 0.0));
-	//aMat = translate(aMat, glm::dvec3(newx, 0.0, newz));
-	glLoadMatrixd(value_ptr(aMat));
-	textura.bind();
-	mesh2->draw();
-	textura.unbind();
-
-	glMatrixMode(GL_MODELVIEW);
-	aMat = modelViewMat * modelMat;
-	aMat = translate(aMat, glm::dvec3(newx, 0.0, newz));
-	aMat = rotate(aMat, radians(90.0), glm::dvec3(0.0, 1.0, 0.0));
-	//aMat = translate(aMat, glm::dvec3(newx, 0.0, newz));
-	glLoadMatrixd(value_ptr(aMat));
-	textura.bind();
-	mesh2->draw();
-	textura.unbind();
-
-	glMatrixMode(GL_MODELVIEW);
-	aMat = modelViewMat * modelMat;
-	aMat = translate(aMat, glm::dvec3(newx, 0.0, newz));
-	aMat = rotate(aMat, radians(135.0), glm::dvec3(0.0, 1.0, 0.0));
-	//aMat = translate(aMat, glm::dvec3(newx, 0.0, newz));
-	glLoadMatrixd(value_ptr(aMat));
-	textura.bind();
-	
-	mesh2->draw();
-	textura.unbind();
-
 	glDisable(GL_BLEND);
 	glDepthMask(GL_TRUE);
+}
+
+
+void Planta::render(const glm::dmat4 &modelViewMat) {
+	glMatrixMode(GL_MODELVIEW);
+	dmat4 aMat = modelViewMat * modelMat;
+	glLoadMatrixd(value_ptr(aMat));
+	draw();
+	aMat = rotate(aMat, radians(45.0), dvec3(0.0, 1.0, 0.0));
+	glLoadMatrixd(value_ptr(aMat));
+	draw();
+	aMat = rotate(aMat, radians(45.0), dvec3(0.0, 1.0, 0.0));
+	glLoadMatrixd(value_ptr(aMat));
+	draw();
+	aMat = rotate(aMat, radians(45.0), dvec3(0.0, 1.0, 0.0));
+	glLoadMatrixd(value_ptr(aMat));
+	draw();
 }

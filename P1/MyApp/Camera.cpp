@@ -110,7 +110,7 @@ void Camera::setPM()
 	if(orto == true) //ortogonal
 		projMat = ortho(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
 	else //perspectiva
-		projMat = frustum(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, nearVal, farVal);
+		projMat = frustum(xLeft*factScale, xRight*factScale, yBot*factScale, yTop*factScale, yTop, farVal);
 	glMatrixMode(GL_PROJECTION);
 	glLoadMatrixd(value_ptr(projMat));
 	glMatrixMode(GL_MODELVIEW);

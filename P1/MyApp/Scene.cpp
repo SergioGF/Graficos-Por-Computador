@@ -18,12 +18,12 @@ void Scene::init()
 	//objetos.push_back(new TriPyramid(100.0,200.0));
 	objetos.push_back(new Cubo(180.0));
 	objetos.push_back(new Diabolo(80.0, 140.0));
-	objetos.push_back(new Suelo(1000.0, 1000.0, 180.0));
+	objetos.push_back(new Suelo(1000.0, 1000.0));
 	//objetos.push_back(new EjesRGB(500.0));
 	//objetos.push_back(new Espejo(100.0,100.0));
 	objetos.push_back(new Jardinera(180.0, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180, 260, 1000.0, 1000.0));
-	objetos.push_back(new Planta(180, 260, 1000.0, 1000.0));
+	objetos.push_back(new Planta(180));
 }
 //-------------------------------------------------------------------------
 
@@ -41,7 +41,6 @@ void Scene::render()
 {
 	glMatrixMode(GL_MODELVIEW);
 
-	int i = 0;
 	viewport = camera->getVP();
 	viewport->setSize(800, 600);
 	/*for each (Entity* it in objetos)
@@ -66,16 +65,6 @@ void Scene::render()
 	}*/
 	for each (Entity* it in objetos)
 	{
-		if (i == 1) {
-			viewport->setPos(-100, 30);
-		}
-		else if (i == 0) {
-			viewport->setPos(0, 0);
-		}
-		else if (i == 2) {
-			viewport->setPos(0, 0);
-		}
-		i++;
 		it->render(camera->getViewMat());
 	}
 }
