@@ -337,15 +337,18 @@ MPR::MPR(int n) {
 
 void MPR::draw() {
 	dvec3* vertices = mesh->getVertices();
-	dvec4* colors = mesh->getColours();
-	glColor3d(0.0,0.0,1.0);
+	//dvec4* colors = mesh->getColours();
+	dvec3* normals = mesh->getNormals();
+	//glColor3d(0.0,0.0,1.0);
 	if (vertices != nullptr) {
 		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 		glVertexPointer(3, GL_DOUBLE, 0, vertices);
-		if (colors != nullptr) {
+		glNormalPointer(GL_DOUBLE, 0, normals);
+		/*if (colors != nullptr) {
 			glEnableClientState(GL_COLOR_ARRAY);
 			glColorPointer(4, GL_DOUBLE, 0, colors);
-		}
+		}*/
 	}
 	// Definición de las caras
 	glPolygonMode(GL_FRONT, GL_FILL);
@@ -362,5 +365,21 @@ void MPR::draw() {
 	// Después del dibujo de los elementos por índices,
 	// se deshabilitan los vertex arrays, como es habitual
 	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+}
+
+Hipo::Hipo(int nP, int nQ, GLfloat a, GLfloat b, GLfloat c) {
+	this->nP = nP;
+	this->nQ = nQ;
+	this->a = a;
+	this->b = b;
+	this->c = c;
+
+
+}
+
+void Hipo::draw() {
+
+
 }
 

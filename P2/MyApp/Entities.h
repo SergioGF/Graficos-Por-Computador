@@ -171,4 +171,18 @@ protected:
 	int m;
 	int n;
 };
+
+class Hipo : public Entity
+{
+public:
+	Hipo(int nP, int nQ, GLfloat a, GLfloat b, GLfloat c);
+	~Hipo() { };
+	virtual void draw();
+protected:
+	int nP;
+	int nQ;
+	GLfloat a;
+	GLfloat b;
+	GLfloat c;
+};
 #endif //_H_Entities_H_

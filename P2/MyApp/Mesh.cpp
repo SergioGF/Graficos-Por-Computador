@@ -254,12 +254,12 @@ Mesh* Mesh::generaMallaPorRevolucion(int m, int n, glm::dvec3* perfil) {
 			mesh->vertices[indice] = p;
 		}
 	}
-	mesh->normals = new dvec3[mesh->numVertices];
 	mesh->normalize(m,n);
 	return mesh;
 }
 
 void Mesh::normalize(int mm, int nn) {
+	normals = new dvec3[mm*nn];
 	// Se ponen al vector nulo todas las componentes de normals
 	for (int i = 0; i < nn; i++)
 		for (int j = 0; j < mm - 1; j++) {
@@ -267,16 +267,71 @@ void Mesh::normalize(int mm, int nn) {
 			// Por cada cara a la que pertenece el vértice índice,
 			// se determinan 3 índices i0, i1, i2 de 3 vértices consecutivos de esa cara
 			dvec3 aux0 = normals[indice];//vértice de i0; 
-			dvec3 aux1 = normals[(indice+mm)%numVertices]; 
-			dvec3 aux2 = normals[indice+1];
-			dvec3 norm = glm::cross(aux1 - aux0, aux2 - aux0);
+			dvec3 aux1 = normals[(indice+mm)%(mm*nn)]; 
+			dvec3 aux2 = normals[(indice+mm+1) %(mm*nn)];
+			dvec3 norm = glm::cross(aux2 - aux1, aux0 - aux1);
 			normals[indice] += norm; 
 			normals[(indice+mm)% (nn*mm)] += norm;
-			normals[indice+mm+1 % (nn*mm)] += norm; 
+			normals[(indice+mm+1) % (nn*mm)] += norm; 
 			normals[indice+1] += norm;
 		}
-
 	for (int i = 0; i < mm*nn; i++) {
 		normals[i] = glm::normalize(normals[i]);
 	}
+}
+
+HipoMesh::HipoMesh(int nP,int nQ, GLfloat a, GLfloat b, GLfloat c) {
+	/*this->nP = nP;
+	this->nQ = nQ;
+	this->a = a;
+	this->b = b;
+	this->c = c;
+
+	creaBase();
+	GLdouble t = 0.0;
+	cargaMatriz(t);
+	creaVerticesIniciales();
+	GLdouble saltoEntreRodajas;
+	for (int i = 0; i < nQ; i++) {
+		t += saltoEntreRodajas;
+		cargaMatriz(t);
+		creaRodaja();
+	}*/
+}
+
+void HipoMesh::creaBase() {
+
+}
+
+void HipoMesh::creaVerticesIniciales() {
+
+}
+
+void HipoMesh::creaRodaja(int v) {
+
+}
+
+void HipoMesh::cargaMatriz(GLdouble t) {
+
+}
+
+glm::dvec3 HipoMesh::curva(GLdouble t) {
+
+	return glm::dvec3((a - b)*cos(t) + c*cos(t*((a - b) / b)),
+		0,
+		(a - b)*sin(t) - c * sin(t*((a - b) / b)));
+}
+
+glm::dvec3 HipoMesh::derivada(GLdouble t) {
+
+	return glm::dvec3(-(a - b)*sin(t) - c * ((a - b) / b)*sin(t*((a - b) / b)),
+		0,
+		(a - b)*cos(t) - c * ((a - b) / b)*cos(t*((a - b) / b)));
+}
+
+glm::dvec3 HipoMesh:: segundaDerivada(GLdouble t) {
+
+	return dvec3(-(a - b)*cos(t) - c * ((a - b) / b)*((a - b) / b)*cos(t*((a - b) / b)),
+		0,
+		-(a - b)*sin(t) + c * ((a - b) / b)*((a - b) / b)*sin(t*((a - b) / b)));
 }
