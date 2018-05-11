@@ -1,11 +1,9 @@
 #include "Entities.h"
 #include "Camera.h"
-
 #include <gtc/matrix_transform.hpp>  
 #include <gtc/type_ptr.hpp>
 
 using namespace glm;
-
 //-------------------------------------------------------------------------
 
 void Entity::render(dmat4 const& modelViewMat)
@@ -374,12 +372,45 @@ Hipo::Hipo(int nP, int nQ, GLfloat a, GLfloat b, GLfloat c) {
 	this->a = a;
 	this->b = b;
 	this->c = c;
-
+	this->mesh = new HipoMesh(nP, nQ, a, b, c);
 
 }
 
 void Hipo::draw() {
+	dvec3* vertices = mesh->getVertices();
+	//dvec4* colors = mesh->getColours();
+	dvec3* normals = mesh->getNormals();
+	int numeroCaras = nQ * nP;
 
-
+	glColor3d(0.0,0.0,1.0);
+	if (vertices != nullptr) {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		//glEnableClientState(GL_NORMAL_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, 0, vertices);
+		//glNormalPointer(GL_DOUBLE, 0, normals);
+		/*if (colors != nullptr) {
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_DOUBLE, 0, colors);
+		}*/
+	}
+	// Definición de las caras
+	glPolygonMode(GL_FRONT, GL_FILL);
+	for (int i = 0; i < nQ; i++) { // Unir el perfil i-ésimo con el (i+1)%n-ésimo
+		int cara = i;
+		for (int j = 0; j<nP; j++) { // Esquina inferior-izquierda de una cara
+			int indice = i * nP + j;
+			//(indice + m) % (n*m)
+			int indice2 = (indice + nP) % (nQ*nP);
+			int indice3 = (indice + nP + 1) % (nQ*nP);
+			int indice4 = indice + 1;
+			unsigned int stripIndices[] ={ indice, indice2, indice3, indice4 };
+			glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, stripIndices);
+			// o GL_POLYGON, si se quiere las caras con relleno
+		}
+	}
+	// Después del dibujo de los elementos por índices,
+	// se deshabilitan los vertex arrays, como es habitual
+	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_NORMAL_ARRAY);
 }
 

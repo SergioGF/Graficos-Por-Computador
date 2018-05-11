@@ -99,8 +99,6 @@ void resize(int newWidth, int newHeight)
 void key(unsigned char key, int x, int y)
 {
 	bool need_redisplay = true;
-	int x2;
-	int y2;
 	Texture texture;
 	switch (key) {
 	case 27:  // Escape key 
@@ -110,7 +108,7 @@ void key(unsigned char key, int x, int y)
 		camera.scale(+0.01);   // zoom in  
 		break;
 	case '-':
-		camera.scale(-0.01);   // zoom out
+		camera.scale(-1.0);   // zoom out
 		break;
 	case 'l':
 		camera.set3D();

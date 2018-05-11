@@ -49,6 +49,7 @@ public:
 	void creaVerticesIniciales(); // Añade los primeros nP vértices
 	void creaRodaja(int v); // Añade nP nuevos vértices, a partir de la componente v
 	void cargaMatriz(GLdouble t); // Define la matriz m para t
+	glm::dvec3 multiplicacionMatriz(glm::dmat4 m, glm::dvec4 bi);
 	glm::dvec3 curva(GLdouble t);
 	glm::dvec3 derivada(GLdouble t);
 	glm::dvec3 segundaDerivada(GLdouble t);
@@ -57,7 +58,7 @@ protected:
 	int nQ; // Número de rodajas que forman la hipotrocoide
 	GLfloat a, b, c; // Valores de los parámetros de la ecuación de la hipotrocoide
 	glm::dmat4 m; // Matriz de paso de coordenadas locales a globales
-	glm::dvec3* base; // Perfil del nP-ágono que aproxima la circunferencia que define el tubo
+	glm::dvec4* base; // Perfil del nP-ágono que aproxima la circunferencia que define el tubo
 };
 
 //-------------------------------------------------------------------------

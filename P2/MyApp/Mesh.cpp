@@ -1,5 +1,5 @@
 #include "Mesh.h"
-
+#include <math.h>
 using namespace glm;
 
 //-------------------------------------------------------------------------
@@ -281,38 +281,130 @@ void Mesh::normalize(int mm, int nn) {
 }
 
 HipoMesh::HipoMesh(int nP,int nQ, GLfloat a, GLfloat b, GLfloat c) {
-	/*this->nP = nP;
+	int cont = 0;
+	this->nP = nP;
 	this->nQ = nQ;
 	this->a = a;
 	this->b = b;
 	this->c = c;
-
+	this->numVertices = nP + nP * nQ;
+	this->vertices = new dvec3[numVertices];
+	for (int i = 0; i < numVertices; i++) {
+		this->vertices[i] = dvec3(0, 0, 0);
+	}
+	//this->m = new dmat4();
+	GLdouble radio = 0.5;
 	creaBase();
 	GLdouble t = 0.0;
 	cargaMatriz(t);
 	creaVerticesIniciales();
-	GLdouble saltoEntreRodajas;
-	for (int i = 0; i < nQ; i++) {
+	double PI = 3.1415926535897932384;
+	GLdouble saltoEntreRodajas = 8*PI/nQ;
+	cont++;
+	for (int i = 1; i < nQ; i++) {
 		t += saltoEntreRodajas;
 		cargaMatriz(t);
-		creaRodaja();
-	}*/
+		creaRodaja(i);
+	}
+	/*int numeroVertices = nP * nQ;
+	int numeroCaras = nP * nQ;
+	int numeroNormales = numeroCaras;*/
+
+	//PIZARRA (posible normalize hipo)
+	/*normals = new dvec3[numVertices];
+	for (int i = 0; i < numVertices; i++) {
+		this->normals[i] = dvec3(0, 0, 0);
+	}
+	GLuint n = nQ;
+	GLuint m = nP;
+	for (GLuint i = 0; i < n; i++) {
+		for (GLuint j = 0; j < m - 1; j++) {
+			GLuint indice = i * m + j;
+			dvec3 aux0 = vertices[indice];
+			dvec3 aux1 = vertices[(indice + m) % (n*m)];
+			dvec3 aux2 = vertices[(indice + m + 1) % (n*m)];
+			dvec3 norm = glm::cross(aux2 - aux1, aux0 - aux1);
+
+			normals[indice] += norm;
+			normals[(indice + m) % (n*m)] += norm;
+			normals[(indice + m + 1) % (n*m)] += norm;
+			normals[indice + 1] += norm;
+		}
+	}
+
+	for (int i = 0; i < numVertices; i++) 
+		this->normals[i] = glm::normalize(normals[i]);*/
 }
 
 void HipoMesh::creaBase() {
-
+	GLdouble radio = 0.5;
+	base = new dvec4[nP];
+	for (int i = 0; i < nP; i++) {
+		GLdouble theta = i * 3.14 * 2.0f / (GLdouble)nP;
+		double c = cos(theta);
+		double s = sin(theta);
+		dvec4 aux0 = dvec4(c*radio, s*radio, 0.0, 1.0);
+		//dvec3 aux0 = dvec3(c*radio, s*radio, (double)0.0);
+		base[i] = aux0;
+	}
 }
 
 void HipoMesh::creaVerticesIniciales() {
-
+	//cargaMatriz(0);
+	creaRodaja(0);
 }
 
 void HipoMesh::creaRodaja(int v) {
+	for (int i = 0; i < nP; i++) {
+		vertices[i + v * nP] = multiplicacionMatriz(m, base[i]);
+	}
+}
 
+glm::dvec3 HipoMesh::multiplicacionMatriz(dmat4 m, dvec4 bi) {
+	dvec3 resultado;
+	double suma = 0.0;
+	for (int i = 0; i < 3; i++) {
+		for (int j = 0; j < 4; j++) {
+			suma += m[i][j] * bi[j];
+		}
+		resultado[i] = suma;
+		suma = 0.0;
+	}
+	return resultado;
 }
 
 void HipoMesh::cargaMatriz(GLdouble t) {
+	dvec3 v_curva = curva(t);
+	dvec3 v_derivada = derivada(t);
+	dvec3 v_segunda = segundaDerivada(t);
+	dvec3 t_vector = glm::normalize(v_derivada);
+	dvec3 b_vector = glm::normalize(glm::cross(v_derivada,v_segunda));
+	dvec3 n_vector = glm::cross(b_vector, t_vector);
+	 for (int i = 0; i < 4; i++) {
+		 for (int j = 0; j < 4; j++) {
+			 if(i<3){
+				 if (j == 0) {
+					 m[i][j] = n_vector[i];
+				 }
+				 else if (j == 1) {
+					 m[i][j] = b_vector[i];
+				 }
+				 else if (j == 2) {
+					 m[i][j] = t_vector[i];
 
+				 }
+				 else {
+					 m[i][j] = v_curva[i];
+				 }
+			}
+			else{
+				 if (j == 3)
+					 m[i][j] = 1.0;
+				 else
+					 m[i][j] = 0.0;
+			 }
+		 }
+	 }
 }
 
 glm::dvec3 HipoMesh::curva(GLdouble t) {
@@ -323,7 +415,6 @@ glm::dvec3 HipoMesh::curva(GLdouble t) {
 }
 
 glm::dvec3 HipoMesh::derivada(GLdouble t) {
-
 	return glm::dvec3(-(a - b)*sin(t) - c * ((a - b) / b)*sin(t*((a - b) / b)),
 		0,
 		(a - b)*cos(t) - c * ((a - b) / b)*cos(t*((a - b) / b)));

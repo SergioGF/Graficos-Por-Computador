@@ -21,7 +21,8 @@ void Scene::init()
 	glLightfv(GL_LIGHT0, GL_SPECULAR, s);
 	GLfloat p[] = { 50.0f, 50.0f, 50.0f, 1.0f };
 	glLightfv(GL_LIGHT0, GL_POSITION, p);
-	camera->set3D();
+	camera->set3D();
+
 	// lights
 	// textures  
 
@@ -32,13 +33,13 @@ void Scene::init()
 	//objetos.push_back(new Cubo(180.0));
 	//objetos.push_back(new Diabolo(80.0, 140.0));
 	//objetos.push_back(new Suelo(1000.0, 1000.0));
-	objetos.push_back(new EjesRGB(500.0));
+	//objetos.push_back(new EjesRGB(500.0));
 	//objetos.push_back(new Espejo(100.0,100.0));
 	//objetos.push_back(new Jardinera(180.0, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180, 260, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180));
-	objetos.push_back(new MPR(5));
-	//objetos.push_back(new Hipo(0,0,7,4,2));
+	//objetos.push_back(new MPR(5));
+	objetos.push_back(new Hipo(5,100,7,4,2));
 }
 //-------------------------------------------------------------------------
 
