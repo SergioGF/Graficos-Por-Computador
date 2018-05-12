@@ -373,7 +373,7 @@ Hipo::Hipo(int nP, int nQ, GLfloat a, GLfloat b, GLfloat c) {
 	this->b = b;
 	this->c = c;
 	this->mesh = new HipoMesh(nP, nQ, a, b, c);
-
+	mesh->normalize(nP,nQ);
 }
 
 void Hipo::draw() {
@@ -385,32 +385,50 @@ void Hipo::draw() {
 	glColor3d(0.0,0.0,1.0);
 	if (vertices != nullptr) {
 		glEnableClientState(GL_VERTEX_ARRAY);
-		//glEnableClientState(GL_NORMAL_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
 		glVertexPointer(3, GL_DOUBLE, 0, vertices);
-		//glNormalPointer(GL_DOUBLE, 0, normals);
+		glNormalPointer(GL_DOUBLE, 0, normals);
 		/*if (colors != nullptr) {
 		glEnableClientState(GL_COLOR_ARRAY);
 		glColorPointer(4, GL_DOUBLE, 0, colors);
 		}*/
 	}
 	// Definición de las caras
-	glPolygonMode(GL_FRONT, GL_FILL);
+	glPolygonMode(GL_FRONT, GL_LINE);
+	int indiceCara = 0;
 	for (int i = 0; i < nQ; i++) { // Unir el perfil i-ésimo con el (i+1)%n-ésimo
 		int cara = i;
-		for (int j = 0; j<nP; j++) { // Esquina inferior-izquierda de una cara
+		for (int j = 0; j < nP; j++) { // Esquina inferior-izquierda de una cara
+			//4,0,5,9
 			int indice = i * nP + j;
-			//(indice + m) % (n*m)
-			int indice2 = (indice + nP) % (nQ*nP);
-			int indice3 = (indice + nP + 1) % (nQ*nP);
-			int indice4 = indice + 1;
-			unsigned int stripIndices[] ={ indice, indice2, indice3, indice4 };
-			glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, stripIndices);
-			// o GL_POLYGON, si se quiere las caras con relleno
+			int indice1 = (indice + nP) % (nQ*nP);
+			int indice2 = 0;
+			int indice3 = 0;
+			if (j == nP - 1) {
+				/*
+				vn[2] = new VerticeNormal((indice + 1) % numeroVertices, indiceCara);
+				vn[3] = new VerticeNormal(indice - nP + 1, indiceCara)
+				*/
+				indice2 = (indice + 1) % (nQ*nP);
+				indice3 = indice -nP + 1;
+
+			}
+			else {
+				/*
+				vn[2] = new VerticeNormal((indice + 1 + nP) % numeroVertices, indiceCara);
+				vn[3] = new VerticeNormal(indice + 1, indiceCara);
+				*/
+				indice2 = (indice + nP + 1) % (nQ*nP);
+				indice3 = indice + 1;
+			}
+
+				unsigned int stripIndices[] = { indice, indice1, indice2, indice3 };
+				glDrawElements(GL_LINE_LOOP,4, GL_UNSIGNED_INT, stripIndices);
 		}
 	}
 	// Después del dibujo de los elementos por índices,
 	// se deshabilitan los vertex arrays, como es habitual
 	glDisableClientState(GL_VERTEX_ARRAY);
-	//glDisableClientState(GL_NORMAL_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
 }
 

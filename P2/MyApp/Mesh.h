@@ -53,12 +53,14 @@ public:
 	glm::dvec3 curva(GLdouble t);
 	glm::dvec3 derivada(GLdouble t);
 	glm::dvec3 segundaDerivada(GLdouble t);
+	void normalize(int mm, int nn);
 protected:
 	int nP; // Número de lados del polígono que aproxima la circunferencia que define el tubo
 	int nQ; // Número de rodajas que forman la hipotrocoide
 	GLfloat a, b, c; // Valores de los parámetros de la ecuación de la hipotrocoide
 	glm::dmat4 m; // Matriz de paso de coordenadas locales a globales
 	glm::dvec4* base; // Perfil del nP-ágono que aproxima la circunferencia que define el tubo
+
 };
 
 //-------------------------------------------------------------------------

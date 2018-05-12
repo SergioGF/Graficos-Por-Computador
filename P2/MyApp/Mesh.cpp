@@ -280,38 +280,8 @@ void Mesh::normalize(int mm, int nn) {
 	}
 }
 
-HipoMesh::HipoMesh(int nP,int nQ, GLfloat a, GLfloat b, GLfloat c) {
-	int cont = 0;
-	this->nP = nP;
-	this->nQ = nQ;
-	this->a = a;
-	this->b = b;
-	this->c = c;
-	this->numVertices = nP + nP * nQ;
-	this->vertices = new dvec3[numVertices];
-	for (int i = 0; i < numVertices; i++) {
-		this->vertices[i] = dvec3(0, 0, 0);
-	}
-	//this->m = new dmat4();
-	GLdouble radio = 0.5;
-	creaBase();
-	GLdouble t = 0.0;
-	cargaMatriz(t);
-	creaVerticesIniciales();
-	double PI = 3.1415926535897932384;
-	GLdouble saltoEntreRodajas = 8*PI/nQ;
-	cont++;
-	for (int i = 1; i < nQ; i++) {
-		t += saltoEntreRodajas;
-		cargaMatriz(t);
-		creaRodaja(i);
-	}
-	/*int numeroVertices = nP * nQ;
-	int numeroCaras = nP * nQ;
-	int numeroNormales = numeroCaras;*/
-
-	//PIZARRA (posible normalize hipo)
-	/*normals = new dvec3[numVertices];
+void HipoMesh::normalize(int mm, int nn) {
+	normals = new dvec3[numVertices];
 	for (int i = 0; i < numVertices; i++) {
 		this->normals[i] = dvec3(0, 0, 0);
 	}
@@ -332,8 +302,34 @@ HipoMesh::HipoMesh(int nP,int nQ, GLfloat a, GLfloat b, GLfloat c) {
 		}
 	}
 
-	for (int i = 0; i < numVertices; i++) 
-		this->normals[i] = glm::normalize(normals[i]);*/
+	for (int i = 0; i < numVertices; i++)
+		this->normals[i] = glm::normalize(normals[i]);
+}
+HipoMesh::HipoMesh(int nP,int nQ, GLfloat a, GLfloat b, GLfloat c) {
+	int cont = 0;
+	this->nP = nP;
+	this->nQ = nQ;
+	this->a = a;
+	this->b = b;
+	this->c = c;
+	this->numVertices = nP + nP * nQ;
+	this->vertices = new dvec3[numVertices];
+	for (int i = 0; i < numVertices; i++) {
+		this->vertices[i] = dvec3(0, 0, 0);
+	}
+	GLdouble radio = 0.5;
+	creaBase();
+	GLdouble t = 0.0;
+	cargaMatriz(t);
+	creaVerticesIniciales();
+	double PI = 3.1415926535897932384;
+	GLdouble saltoEntreRodajas = 8*PI/nQ;
+	cont++;
+	for (int i = 1; i < nQ; i++) {
+		t += saltoEntreRodajas;
+		cargaMatriz(t);
+		creaRodaja(i);
+	}
 }
 
 void HipoMesh::creaBase() {
