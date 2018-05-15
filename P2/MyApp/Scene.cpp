@@ -39,8 +39,9 @@ void Scene::init()
 	//objetos.push_back(new Jardinera(180.0, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180, 260, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180));
-	//objetos.push_back(new MPR(5));
-	objetos.push_back(new Hipo(10,300,7,4,2));
+	//objetos.push_back(new MPR(20));
+	//objetos.push_back(new Hipo(10,300,7,4,2));
+	objetos.push_back(new Sphere(100.0));
 }
 //-------------------------------------------------------------------------
 

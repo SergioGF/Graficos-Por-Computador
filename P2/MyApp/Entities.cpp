@@ -432,3 +432,20 @@ void Hipo::draw() {
 	glDisableClientState(GL_NORMAL_ARRAY);
 }
 
+Sphere::Sphere(GLdouble l) {
+	r = l;
+	sphere = gluNewQuadric();
+	//gluQuadricTexture(sphere, GLU_TRUE);
+}
+
+void Sphere::draw() {
+	glColor3f(a,b,c);
+	// En la Práctica 2, el color se debe incorporar con tres
+	// atributos en Entity de tipo GLfloat o con un nuevo atributo de
+	// clase Color que tiene 3 atributos de tipo GLfloat
+	gluQuadricDrawStyle(sphere, GLU_FILL);
+	//texture.bind(GL_MODULATE);
+	gluSphere(sphere, r, r, r);
+	//texture.unbind();
+}
+

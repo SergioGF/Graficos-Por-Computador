@@ -6,7 +6,7 @@
 #include <glm.hpp>
 #include "Mesh.h"
 #include "Texture.h"
-
+#include <vector>
 //-------------------------------------------------------------------------
 
 class Entity
@@ -28,6 +28,9 @@ protected:
 	Texture textura2;
 	virtual void draw();
 	virtual void setMvM(glm::dmat4 const& modelViewMat);
+	GLfloat a;
+	GLfloat b;
+	GLfloat c;
 };
 
 //-------------------------------------------------------------------------
@@ -184,5 +187,43 @@ protected:
 	GLfloat a;
 	GLfloat b;
 	GLfloat c;
+};
+
+class CompoundEntity : public Entity
+{
+public:
+	CompoundEntity() {};
+protected:
+	std::vector<Entity*> entities;
+};
+
+class QuadricEntity : public Entity
+{
+public:
+	QuadricEntity() {};
+protected:
+
+};
+
+class Sphere : public QuadricEntity
+{
+public:
+	Sphere(GLdouble l);
+	~Sphere() {gluDeleteQuadric(sphere);};
+	virtual void draw();
+protected:
+	GLUquadricObj * sphere;
+	GLdouble r;
+	GLfloat a;
+	GLfloat b;
+	GLfloat c;
+};
+
+class Cylinder : public Entity
+{
+public:
+	Cylinder() {};
+protected:
+
 };
 #endif //_H_Entities_H_
