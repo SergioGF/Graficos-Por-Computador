@@ -34,14 +34,50 @@ void Scene::init()
 	//objetos.push_back(new Cubo(180.0));
 	//objetos.push_back(new Diabolo(80.0, 140.0));
 	//objetos.push_back(new Suelo(1000.0, 1000.0));
-	objetos.push_back(new EjesRGB(500.0));
+	//objetos.push_back(new EjesRGB(500.0));
 	//objetos.push_back(new Espejo(100.0,100.0));
 	//objetos.push_back(new Jardinera(180.0, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180, 260, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180));
-	//objetos.push_back(new MPR(20));
 	//objetos.push_back(new Hipo(10,300,7,4,2));
-	objetos.push_back(new Sphere(100.0));
+	//objetos.push_back(new Sphere(100.0));
+	
+	this->objetos.push_back(new EjesRGB(500.0));
+	//this->objetos.push_back(new Sphere(100.0));
+	CompoundEntity* BB8 = new CompoundEntity();
+	this->objetos.push_back(BB8);
+	//BB8->modelMat =glm::rotate(BB8->modelMat,glm::radians(45.0), glm::dvec3(0, 1, 0));
+
+	SemiEsfera* sp1 = new SemiEsfera(10); // Cabeza
+	sp1->a = 1.0;
+	sp1->b = 1.0;
+	sp1->c = 1.0;
+	BB8->entities.push_back(sp1);
+	//sp1->modelMat = glm::translate(sp1->modelMat, glm::dvec3(0, 30, 0)); 	// Se sube la cabeza
+
+	Sphere* sp2 = new Sphere(20); // Cuerpo
+	sp2->a = 0.9;
+	sp2->b = 0.8;
+	sp2->c = 0.6;
+	BB8->entities.push_back(sp2);
+
+	Sphere* spo1 = new Sphere(2); // Ojo izquierdo
+	spo1->a = 0.0;
+	spo1->b = 0.0;
+	spo1->c = 0.0;							 
+	BB8->entities.push_back(spo1);
+	// Se sitúa el ojo en la cabeza
+	//spo1->modelMat = glm::translate(spo1->modelMat, glm::dvec3(-3, 35, 6));
+
+	Sphere* spo2 = new Sphere(1); // Ojo derecho
+	spo2->a = 0.0;
+	spo2->b = 0.0;
+	spo2->c = 0.0;							
+	BB8->entities.push_back(spo2);
+
+
+	// Se sitúa el ojo en la cabeza
+	//spo2->modelMat = glm::translate(spo2->modelMat, glm::dvec3(3, 35, 6));
 }
 //-------------------------------------------------------------------------
 
@@ -61,7 +97,6 @@ void Scene::render()
 
 	viewport = camera->getVP();
 	viewport->setSize(800, 600);
-
 	for each (Entity* it in objetos)
 	{
 		it->render(camera->getViewMat());

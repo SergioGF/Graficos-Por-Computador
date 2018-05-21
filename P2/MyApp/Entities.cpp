@@ -330,6 +330,7 @@ MPR::MPR(int n) {
 	perfil[0] = dvec3(0.0, 0.0, 0.0);
 	perfil[1] = dvec3(25.0,0.0,0.0);
 	perfil[2] = dvec3(0.0,75.0,0.0);
+
 	this->mesh = Mesh::generaMallaPorRevolucion(m, n, perfil);
 }
 
@@ -337,7 +338,7 @@ void MPR::draw() {
 	dvec3* vertices = mesh->getVertices();
 	//dvec4* colors = mesh->getColours();
 	dvec3* normals = mesh->getNormals();
-	//glColor3d(0.0,0.0,1.0);
+	glColor3d(0.0,0.0,1.0);
 	if (vertices != nullptr) {
 		glEnableClientState(GL_VERTEX_ARRAY);
 		glEnableClientState(GL_NORMAL_ARRAY);
@@ -439,13 +440,91 @@ Sphere::Sphere(GLdouble l) {
 }
 
 void Sphere::draw() {
-	glColor3f(a,b,c);
+	glColor3d(a,b,c);
 	// En la Práctica 2, el color se debe incorporar con tres
 	// atributos en Entity de tipo GLfloat o con un nuevo atributo de
 	// clase Color que tiene 3 atributos de tipo GLfloat
 	gluQuadricDrawStyle(sphere, GLU_FILL);
 	//texture.bind(GL_MODULATE);
-	gluSphere(sphere, r, r, r);
+	gluSphere(sphere, r, 50, 50);
 	//texture.unbind();
 }
+
+void CompoundEntity::render(glm::dmat4 const& modelViewMat) {
+	glMatrixMode(GL_MODELVIEW);
+	int i = 0;
+	dmat4 aMat = modelViewMat * this->modelMat;
+	aMat = rotate(aMat, glm::radians(45.0), glm::dvec3(0, 1, 0));
+	for each (Entity* it in entities)
+	{
+		dmat4 aMatAux = aMat;
+		if (i == 0) {
+			aMatAux = translate(aMatAux, glm::dvec3(0, 20, 0));
+		}
+		else if (i == 1) {
+
+		}
+		else if (i == 2) {
+			aMatAux = translate(aMatAux, glm::dvec3(-3, 25, 6));
+		}
+		else if (i == 3) {
+			aMatAux = translate(aMatAux, glm::dvec3(3, 24, 8));
+		}
+			it->render(aMatAux);
+			i++;
+	}
+};
+
+SemiEsfera::SemiEsfera(int l) {
+	this->m = 53; //número de puntos del perfil
+	this->n = 30;
+
+	dvec3* perfil = new dvec3[23];
+	perfil[0] = dvec3(0.0, 0.0, 0.0);
+	perfil[1] = dvec3(l, 0.0, 0.0);
+
+	double varAng = 90 / 20;
+	double angulo = 0.0;
+	for (int i = 2; i < 22;i++) {
+		angulo = angulo + varAng;
+		perfil[i] = dvec3(l*cos(glm::radians(angulo)),l*sin(glm::radians(angulo)),0.0);
+	}
+	perfil[22] = dvec3(0.0, l, 0.0);
+	this->mesh = Mesh::generaMallaPorRevolucion(m, n, perfil);
+}
+
+void SemiEsfera::draw() {
+	dvec3* vertices = mesh->getVertices();
+	//dvec4* colors = mesh->getColours();
+	dvec3* normals = mesh->getNormals();
+	glColor3d(a, b, c);
+	if (vertices != nullptr) {
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glEnableClientState(GL_NORMAL_ARRAY);
+		glVertexPointer(3, GL_DOUBLE, 0, vertices);
+		glNormalPointer(GL_DOUBLE, 0, normals);
+		/*if (colors != nullptr) {
+		glEnableClientState(GL_COLOR_ARRAY);
+		glColorPointer(4, GL_DOUBLE, 0, colors);
+		}*/
+	}
+	// Definición de las caras
+	glPolygonMode(GL_FRONT, GL_FILL);
+	for (int i = 0; i<n; i++) { // Unir el perfil i-ésimo con el (i+1)%n-ésimo
+		for (int j = 0; j<m - 1; j++) { // Esquina inferior-izquierda de una cara
+			int indice = i * m + j;
+			unsigned int stripIndices[] =
+			{ indice, (indice + m) % (n*m),
+				(indice + m + 1) % (n*m), indice + 1 };
+			glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, stripIndices);
+			// o GL_POLYGON, si se quiere las caras con relleno
+		}
+	}
+	// Después del dibujo de los elementos por índices,
+	// se deshabilitan los vertex arrays, como es habitual
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+}
+
+
 

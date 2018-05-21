@@ -3,9 +3,11 @@
 #define _H_Scene_H_
 
 #include <GL/freeglut.h>
+#include "glm.hpp"
 #include <vector>
 #include "Camera.h"
 #include "Entities.h"
+using namespace std;
 
 //-------------------------------------------------------------------------
 

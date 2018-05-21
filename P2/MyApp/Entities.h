@@ -7,6 +7,8 @@
 #include "Mesh.h"
 #include "Texture.h"
 #include <vector>
+#include <iostream>
+using namespace std;
 //-------------------------------------------------------------------------
 
 class Entity
@@ -19,18 +21,15 @@ public:
 	virtual void RotacionDiabolo();
 	virtual void update(GLuint timeElapsed);
 	//virtual void guardarImagen();
+	glm::dmat4 modelMat;
 
 protected:
 	Mesh * mesh = nullptr;
-	glm::dmat4 modelMat;
 	GLdouble ang = 60.0;
 	Texture textura;
 	Texture textura2;
 	virtual void draw();
 	virtual void setMvM(glm::dmat4 const& modelViewMat);
-	GLfloat a;
-	GLfloat b;
-	GLfloat c;
 };
 
 //-------------------------------------------------------------------------
@@ -193,16 +192,20 @@ class CompoundEntity : public Entity
 {
 public:
 	CompoundEntity() {};
-protected:
 	std::vector<Entity*> entities;
+	virtual void render(glm::dmat4 const& modelViewMat);
+protected:
 };
 
 class QuadricEntity : public Entity
 {
 public:
 	QuadricEntity() {};
+	GLfloat a;
+	GLfloat b;
+	GLfloat c;
+	GLdouble r;
 protected:
-
 };
 
 class Sphere : public QuadricEntity
@@ -213,17 +216,27 @@ public:
 	virtual void draw();
 protected:
 	GLUquadricObj * sphere;
-	GLdouble r;
-	GLfloat a;
-	GLfloat b;
-	GLfloat c;
 };
 
-class Cylinder : public Entity
+class Cylinder : public QuadricEntity
 {
 public:
 	Cylinder() {};
 protected:
 
+};
+
+class SemiEsfera : public Entity
+{
+public:
+	SemiEsfera(int n);
+	~SemiEsfera() { };
+	virtual void draw();
+	GLfloat a;
+	GLfloat b;
+	GLfloat c;
+protected:
+	int m;
+	int n;
 };
 #endif //_H_Entities_H_

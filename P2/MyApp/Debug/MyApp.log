@@ -1,7 +1,5 @@
-﻿  Scene.cpp
-  Entities.cpp
-c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\entities.cpp(358): warning C4838: la conversión de 'int' en 'unsigned int' requiere una conversión de restricción
-c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\entities.cpp(425): warning C4838: la conversión de 'int' en 'unsigned int' requiere una conversión de restricción
-c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\entities.cpp(448): warning C4244: 'argumento': conversión de 'GLdouble' a 'GLint'; posible pérdida de datos
-  Generando código...
+﻿  Entities.cpp
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\entities.cpp(359): warning C4838: la conversión de 'int' en 'unsigned int' requiere una conversión de restricción
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\entities.cpp(426): warning C4838: la conversión de 'int' en 'unsigned int' requiere una conversión de restricción
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\entities.cpp(518): warning C4838: la conversión de 'int' en 'unsigned int' requiere una conversión de restricción
   MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\Practicasv3\P2\bin\MyAppDebug.exe
