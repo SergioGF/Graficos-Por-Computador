@@ -20,6 +20,7 @@ public:
 	void render();
 	void aumentarRotacion();
 	void update(GLuint timeElapsed);
+	void moveBB8();
 	//void saveImage();
 
 protected:

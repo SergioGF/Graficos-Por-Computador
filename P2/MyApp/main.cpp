@@ -155,6 +155,8 @@ void key(unsigned char key, int x, int y)
 		camera.actualizarPitch();
 		camera.actualizarYaw();
 		break;
+	case '1':
+		scene.moveBB8();
 	default:
 		need_redisplay = false;
 		break;

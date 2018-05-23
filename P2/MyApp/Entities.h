@@ -20,6 +20,7 @@ public:
 	virtual void render(glm::dmat4 const& modelViewMat);
 	virtual void RotacionDiabolo();
 	virtual void update(GLuint timeElapsed);
+	virtual void moveBB8();
 	//virtual void guardarImagen();
 	glm::dmat4 modelMat;
 
@@ -194,6 +195,7 @@ public:
 	CompoundEntity() {};
 	std::vector<Entity*> entities;
 	virtual void render(glm::dmat4 const& modelViewMat);
+	void moveBB8();
 protected:
 };
 

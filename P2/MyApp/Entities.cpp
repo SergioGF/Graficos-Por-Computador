@@ -27,6 +27,10 @@ void Entity::update(GLuint timeElapsed) {
 
 }
 
+void Entity::moveBB8() {
+
+}
+
 /*void Entity::guardarImagen() {
 
 int x = glutGet(GLUT_WINDOW_WIDTH);
@@ -374,7 +378,7 @@ Hipo::Hipo(int nP, int nQ, GLfloat a, GLfloat b, GLfloat c) {
 	this->b = b;
 	this->c = c;
 	this->mesh = new HipoMesh(nP, nQ, a, b, c);
-	mesh->normalize(nP,nQ);
+	this->mesh->normalize(nP,nQ);
 }
 
 void Hipo::draw() {
@@ -451,29 +455,15 @@ void Sphere::draw() {
 }
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) {
-	glMatrixMode(GL_MODELVIEW);
-	int i = 0;
-	dmat4 aMat = modelViewMat * this->modelMat;
-	aMat = rotate(aMat, glm::radians(45.0), glm::dvec3(0, 1, 0));
 	for each (Entity* it in entities)
 	{
-		dmat4 aMatAux = aMat;
-		if (i == 0) {
-			aMatAux = translate(aMatAux, glm::dvec3(0, 20, 0));
-		}
-		else if (i == 1) {
-
-		}
-		else if (i == 2) {
-			aMatAux = translate(aMatAux, glm::dvec3(-3, 25, 6));
-		}
-		else if (i == 3) {
-			aMatAux = translate(aMatAux, glm::dvec3(3, 24, 8));
-		}
-			it->render(aMatAux);
-			i++;
+			it->render(modelViewMat* it->modelMat);
 	}
 };
+
+void CompoundEntity::moveBB8() {
+
+}
 
 SemiEsfera::SemiEsfera(int l) {
 	this->m = 53; //número de puntos del perfil

@@ -1,5 +1,6 @@
 #include "Scene.h"
-
+#include <gtc/matrix_transform.hpp>  
+#include <gtc/type_ptr.hpp>
 //-------------------------------------------------------------------------
 
 void Scene::init()
@@ -39,45 +40,58 @@ void Scene::init()
 	//objetos.push_back(new Jardinera(180.0, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180, 260, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180));
-	//objetos.push_back(new Hipo(10,300,7,4,2));
+	Hipo* h = new Hipo(10, 300, 7, 4, 2);
+	h->modelMat = glm::scale(h->modelMat,glm::dvec3(50.0,50.0,50.0));
+	objetos.push_back(h);
 	//objetos.push_back(new Sphere(100.0));
 	
 	this->objetos.push_back(new EjesRGB(500.0));
 	//this->objetos.push_back(new Sphere(100.0));
 	CompoundEntity* BB8 = new CompoundEntity();
+	BB8->modelMat = glm::rotate(BB8->modelMat, glm::radians(45.0), glm::dvec3(0, 1, 0));
 	this->objetos.push_back(BB8);
-	//BB8->modelMat =glm::rotate(BB8->modelMat,glm::radians(45.0), glm::dvec3(0, 1, 0));
+
+	CompoundEntity* cabeza = new CompoundEntity();
+	BB8->entities.push_back(cabeza);
 
 	SemiEsfera* sp1 = new SemiEsfera(10); // Cabeza
 	sp1->a = 1.0;
 	sp1->b = 1.0;
 	sp1->c = 1.0;
-	BB8->entities.push_back(sp1);
-	//sp1->modelMat = glm::translate(sp1->modelMat, glm::dvec3(0, 30, 0)); 	// Se sube la cabeza
+	sp1->modelMat = glm::translate(sp1->modelMat, glm::dvec3(0, 10, 0)); 	// Se sube la cabeza
+	cabeza->entities.push_back(sp1);
+
+	CompoundEntity* cuerpo = new CompoundEntity();
+	BB8->entities.push_back(cuerpo);
 
 	Sphere* sp2 = new Sphere(20); // Cuerpo
 	sp2->a = 0.9;
 	sp2->b = 0.8;
 	sp2->c = 0.6;
-	BB8->entities.push_back(sp2);
+	cuerpo->entities.push_back(sp2);
 
-	Sphere* spo1 = new Sphere(2); // Ojo izquierdo
+	Sphere* sp3 = new Sphere(4);
+	sp3->a = 0.0;
+	sp3->b = 0.0;
+	sp3->c = 0.0;
+	sp3->modelMat = glm::translate(sp3->modelMat, glm::dvec3(5, 6, 5));
+	cuerpo->entities.push_back(sp3);
+
+	Sphere* spo1 = new Sphere(1.5); // Ojo izquierdo
 	spo1->a = 0.0;
 	spo1->b = 0.0;
-	spo1->c = 0.0;							 
-	BB8->entities.push_back(spo1);
+	spo1->c = 0.0;				
 	// Se sitúa el ojo en la cabeza
-	//spo1->modelMat = glm::translate(spo1->modelMat, glm::dvec3(-3, 35, 6));
+	spo1->modelMat = glm::translate(spo1->modelMat, glm::dvec3(3, 15, 6));
+	cabeza->entities.push_back(spo1);
 
 	Sphere* spo2 = new Sphere(1); // Ojo derecho
 	spo2->a = 0.0;
 	spo2->b = 0.0;
-	spo2->c = 0.0;							
-	BB8->entities.push_back(spo2);
-
-
+	spo2->c = 0.0;
 	// Se sitúa el ojo en la cabeza
-	//spo2->modelMat = glm::translate(spo2->modelMat, glm::dvec3(3, 35, 6));
+	spo2->modelMat = glm::translate(spo2->modelMat, glm::dvec3(10, 18, 7));
+	cabeza->entities.push_back(spo2);
 }
 //-------------------------------------------------------------------------
 
@@ -115,6 +129,10 @@ void Scene::update(GLuint timeElapsed) {
 	{
 		it->update(timeElapsed);
 	}
+}
+
+void Scene::moveBB8() {
+
 }
 
 /*void Scene::saveImage() {
