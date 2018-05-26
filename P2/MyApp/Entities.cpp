@@ -381,6 +381,9 @@ Hipo::Hipo(int nP, int nQ, GLfloat a, GLfloat b, GLfloat c) {
 	this->mesh->normalize(nP,nQ);
 }
 
+glm::dmat4  Hipo::getMat(GLdouble t){
+	return this->mesh->getMBB8(t);
+}
 void Hipo::draw() {
 	dvec3* vertices = mesh->getVertices();
 	//dvec4* colors = mesh->getColours();
@@ -455,14 +458,27 @@ void Sphere::draw() {
 }
 
 void CompoundEntity::render(glm::dmat4 const& modelViewMat) {
+	glMatrixMode(GL_MODELVIEW);
+	dmat4 aMat = modelViewMat * modelMat;
+	glLoadMatrixd(value_ptr(aMat));
 	for each (Entity* it in entities)
 	{
-			it->render(modelViewMat* it->modelMat);
+	it->render(aMat);
 	}
 };
 
 void CompoundEntity::moveBB8() {
+	glMatrixMode(GL_MODELVIEW);
+	modelMat = rotate(modelMat, radians(2.0), dvec3(0.0, 0.0, 1.0));
+	glLoadMatrixd(value_ptr(modelMat));
+}
 
+GLdouble CompoundEntity::getTbb8()
+{
+	double PI = 3.1415926535897932384;
+	GLdouble salto = 8 * PI / 300;
+	tBB8 = tBB8 + salto;
+	return tBB8;
 }
 
 SemiEsfera::SemiEsfera(int l) {

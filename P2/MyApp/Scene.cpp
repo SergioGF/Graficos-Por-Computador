@@ -41,15 +41,16 @@ void Scene::init()
 	//objetos.push_back(new Planta(180, 260, 1000.0, 1000.0));
 	//objetos.push_back(new Planta(180));
 	Hipo* h = new Hipo(10, 300, 7, 4, 2);
-	h->modelMat = glm::scale(h->modelMat,glm::dvec3(50.0,50.0,50.0));
+	//h->modelMat = glm::scale(h->modelMat,glm::dvec3(50.0,50.0,50.0));
 	objetos.push_back(h);
 	//objetos.push_back(new Sphere(100.0));
 	
 	this->objetos.push_back(new EjesRGB(500.0));
 	//this->objetos.push_back(new Sphere(100.0));
+
 	CompoundEntity* BB8 = new CompoundEntity();
 	BB8->modelMat = glm::rotate(BB8->modelMat, glm::radians(45.0), glm::dvec3(0, 1, 0));
-	this->objetos.push_back(BB8);
+	BB8->modelMat = glm::scale(BB8->modelMat, glm::dvec3(0.01, 0.01, 0.01));
 
 	CompoundEntity* cabeza = new CompoundEntity();
 	BB8->entities.push_back(cabeza);
@@ -58,7 +59,7 @@ void Scene::init()
 	sp1->a = 1.0;
 	sp1->b = 1.0;
 	sp1->c = 1.0;
-	sp1->modelMat = glm::translate(sp1->modelMat, glm::dvec3(0, 10, 0)); 	// Se sube la cabeza
+	sp1->modelMat = glm::translate(sp1->modelMat, glm::dvec3(0, 20, 0)); 	// Se sube la cabeza
 	cabeza->entities.push_back(sp1);
 
 	CompoundEntity* cuerpo = new CompoundEntity();
@@ -82,7 +83,7 @@ void Scene::init()
 	spo1->b = 0.0;
 	spo1->c = 0.0;				
 	// Se sitúa el ojo en la cabeza
-	spo1->modelMat = glm::translate(spo1->modelMat, glm::dvec3(3, 15, 6));
+	spo1->modelMat = glm::translate(spo1->modelMat, glm::dvec3(-3, 26, 6));
 	cabeza->entities.push_back(spo1);
 
 	Sphere* spo2 = new Sphere(1); // Ojo derecho
@@ -90,8 +91,10 @@ void Scene::init()
 	spo2->b = 0.0;
 	spo2->c = 0.0;
 	// Se sitúa el ojo en la cabeza
-	spo2->modelMat = glm::translate(spo2->modelMat, glm::dvec3(10, 18, 7));
+	spo2->modelMat = glm::translate(spo2->modelMat, glm::dvec3(3, 26, 7));
 	cabeza->entities.push_back(spo2);
+
+	this->objetos.push_back(BB8);
 }
 //-------------------------------------------------------------------------
 
@@ -111,8 +114,11 @@ void Scene::render()
 
 	viewport = camera->getVP();
 	viewport->setSize(800, 600);
+	int i = 0;
 	for each (Entity* it in objetos)
 	{
+
+		i++;
 		it->render(camera->getViewMat());
 	}
 }
@@ -132,7 +138,19 @@ void Scene::update(GLuint timeElapsed) {
 }
 
 void Scene::moveBB8() {
+	/*
+	(NBT | 0)
+	(c(t)| 1)
+	Intercambiar c(t) por 0
+	*/
+	CompoundEntity *ob = (CompoundEntity*)objetos.at(2);
+	GLdouble t = ob->getTbb8();
 
+	Hipo *hi = (Hipo*)objetos.at(0);
+	glm::dmat4 hipoamat = hi->getMat(t);
+
+	ob->modelMat = hipoamat;
+	ob->modelMat = glm::scale(ob->modelMat, glm::dvec3(0.01, 0.01, 0.01));
 }
 
 /*void Scene::saveImage() {

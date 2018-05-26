@@ -180,6 +180,7 @@ class Hipo : public Entity
 public:
 	Hipo(int nP, int nQ, GLfloat a, GLfloat b, GLfloat c);
 	~Hipo() { };
+	glm::dmat4 getMat(GLdouble t);
 	virtual void draw();
 protected:
 	int nP;
@@ -196,6 +197,8 @@ public:
 	std::vector<Entity*> entities;
 	virtual void render(glm::dmat4 const& modelViewMat);
 	void moveBB8();
+	GLdouble getTbb8();
+	GLdouble tBB8 = 0.0;
 protected:
 };
 

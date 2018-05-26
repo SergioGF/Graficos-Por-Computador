@@ -34,6 +34,10 @@ void Mesh::draw()
 }
 //-------------------------------------------------------------------------
 
+
+glm::dmat4 Mesh::getM(){ 
+	
+	return m; };
 Mesh * Mesh::generateAxesRGB(GLdouble l)
 {
 	Mesh* m = new Mesh();
@@ -287,6 +291,9 @@ void Mesh::normalize(int mm, int nn) {
 	}
 }
 
+glm::dmat4 Mesh::getMBB8(GLdouble t) {
+	return m;
+}
 void HipoMesh::normalize(int mm, int nn) {
 	normals = new dvec3[numVertices];
 	for (int i = 0; i < numVertices; i++) {
@@ -410,11 +417,11 @@ void HipoMesh::cargaMatriz(GLdouble t) {
 	 }
 }
 
-glm::dvec3 HipoMesh::curva(GLdouble t) {
+glm::dvec4 HipoMesh::curva(GLdouble t) {
 
-	return glm::dvec3((a - b)*cos(t) + c*cos(t*((a - b) / b)),
+	return glm::dvec4((a - b)*cos(t) + c*cos(t*((a - b) / b)),
 		0,
-		(a - b)*sin(t) - c * sin(t*((a - b) / b)));
+		(a - b)*sin(t) - c * sin(t*((a - b) / b)),0);
 }
 
 glm::dvec3 HipoMesh::derivada(GLdouble t) {
@@ -428,4 +435,43 @@ glm::dvec3 HipoMesh:: segundaDerivada(GLdouble t) {
 	return dvec3(-(a - b)*cos(t) - c * ((a - b) / b)*((a - b) / b)*cos(t*((a - b) / b)),
 		0,
 		-(a - b)*sin(t) + c * ((a - b) / b)*((a - b) / b)*sin(t*((a - b) / b)));
+}
+
+glm::dmat4 HipoMesh::getMBB8(GLdouble t) {
+	dvec4 v_curva = curva(t);
+	dvec3 v_derivada = derivada(t);
+	dvec3 v_segunda = segundaDerivada(t);
+	dvec3 t_vector = glm::normalize(v_derivada);
+	dvec3 b_vector = glm::normalize(glm::cross(v_derivada, v_segunda));
+	dvec3 n_vector = glm::cross(b_vector, t_vector);
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			if (i<3) {
+				if (j == 0) {
+					m[i][j] = n_vector[i];
+				}
+				else if (j == 1) {
+					m[i][j] = b_vector[i];
+				}
+				else if (j == 2) {
+					m[i][j] = t_vector[i];
+
+				}
+				else {
+					m[i][j] = 0.0;
+				}
+			}
+			else {
+				if (j == 3)
+					m[i][j] = 1.0;
+				else {
+					GLdouble aux3 = v_curva[i];
+					m[i][j] = v_curva[i];
+				}
+					
+			}
+		}
+	}
+
+	return m;
 }

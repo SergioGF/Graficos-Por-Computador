@@ -22,8 +22,8 @@ public:
 	static Mesh* generateSueloTex(GLdouble w, GLdouble h);
 	static Mesh* generateEspejoTex(GLdouble w, GLdouble h);
 	static Mesh* generaMallaPorRevolucion(int m, int n, glm::dvec3* perfil);
-
-
+	glm::dmat4 getM();
+	glm::dmat4 m; // Matriz de paso de coordenadas locales a globales
 	Mesh(void) { };
 	~Mesh(void);
 	virtual void draw();
@@ -31,6 +31,7 @@ public:
 	glm::dvec3* getVertices() { return vertices; };
 	glm::dvec4* getColours() { return colors; };
 	glm::dvec3* getNormals() { return normals; };
+	virtual glm::dmat4 getMBB8(GLdouble t);
 protected:
 	GLuint numVertices = 0;
 	GLuint type = GL_POINTS;
@@ -50,15 +51,17 @@ public:
 	void creaRodaja(int v); // Añade nP nuevos vértices, a partir de la componente v
 	void cargaMatriz(GLdouble t); // Define la matriz m para t
 	glm::dvec3 multiplicacionMatriz(glm::dmat4 m, glm::dvec4 bi);
-	glm::dvec3 curva(GLdouble t);
+	glm::dvec4 curva(GLdouble t);
 	glm::dvec3 derivada(GLdouble t);
 	glm::dvec3 segundaDerivada(GLdouble t);
 	void normalize(int mm, int nn);
+	void HipoMesh::cargaMatrizBB8(GLdouble t);
+	virtual glm::dmat4 getMBB8(GLdouble t);
 protected:
 	int nP; // Número de lados del polígono que aproxima la circunferencia que define el tubo
 	int nQ; // Número de rodajas que forman la hipotrocoide
 	GLfloat a, b, c; // Valores de los parámetros de la ecuación de la hipotrocoide
-	glm::dmat4 m; // Matriz de paso de coordenadas locales a globales
+	
 	glm::dvec4* base; // Perfil del nP-ágono que aproxima la circunferencia que define el tubo
 
 };

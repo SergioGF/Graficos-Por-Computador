@@ -108,7 +108,7 @@ void key(unsigned char key, int x, int y)
 		camera.scale(+0.01);   // zoom in  
 		break;
 	case '-':
-		camera.scale(-1.0);   // zoom out
+		camera.scale(-0.01);   // zoom out
 		break;
 	case 'l':
 		camera.set3D();
@@ -157,6 +157,7 @@ void key(unsigned char key, int x, int y)
 		break;
 	case '1':
 		scene.moveBB8();
+		break;
 	default:
 		need_redisplay = false;
 		break;
