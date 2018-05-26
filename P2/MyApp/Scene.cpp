@@ -67,15 +67,15 @@ void Scene::init()
 
 	Sphere* sp2 = new Sphere(20); // Cuerpo
 	sp2->a = 0.9;
-	sp2->b = 0.8;
-	sp2->c = 0.6;
+	sp2->b = 1.0;
+	sp2->c = 0;
 	cuerpo->entities.push_back(sp2);
 
 	Sphere* sp3 = new Sphere(4);
 	sp3->a = 0.0;
 	sp3->b = 0.0;
 	sp3->c = 0.0;
-	sp3->modelMat = glm::translate(sp3->modelMat, glm::dvec3(5, 6, 5));
+	sp3->modelMat = glm::translate(sp3->modelMat, glm::dvec3(0, 15, 15));
 	cuerpo->entities.push_back(sp3);
 
 	Sphere* spo1 = new Sphere(1.5); // Ojo izquierdo
@@ -145,12 +145,16 @@ void Scene::moveBB8() {
 	*/
 	CompoundEntity *ob = (CompoundEntity*)objetos.at(2);
 	GLdouble t = ob->getTbb8();
-
+	
 	Hipo *hi = (Hipo*)objetos.at(0);
 	glm::dmat4 hipoamat = hi->getMat(t);
 
 	ob->modelMat = hipoamat;
+	ob->modelMat = glm::rotate(ob->modelMat, glm::radians(180.0), glm::dvec3(0, 0, 1));
 	ob->modelMat = glm::scale(ob->modelMat, glm::dvec3(0.01, 0.01, 0.01));
+
+	CompoundEntity *cpo = (CompoundEntity*)ob->entities.at(0);
+	cpo->modelMat = glm::rotate(cpo->modelMat, glm::radians(5.0), glm::dvec3(1, 0, 0));
 }
 
 /*void Scene::saveImage() {

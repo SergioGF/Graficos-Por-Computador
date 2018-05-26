@@ -1,5 +1,3 @@
 ﻿  Scene.cpp
-c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\scene.cpp(68): warning C4305: '=': truncamiento de 'double' a 'GLfloat'
-c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\scene.cpp(69): warning C4305: '=': truncamiento de 'double' a 'GLfloat'
-c:\users\sergio\desktop\master fdi\graficas por computador\practicasv3\p2\myapp\scene.cpp(70): warning C4305: '=': truncamiento de 'double' a 'GLfloat'
-  MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\Practicasv3\P2\bin\MyAppDebug.exe
+c:\users\sergio\desktop\master fdi\graficas por computador\practicavf\p2\myapp\scene.cpp(69): warning C4305: '=': truncamiento de 'double' a 'GLfloat'
+  MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\PracticaVF\P2\bin\MyAppDebug.exe
