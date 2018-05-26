@@ -466,7 +466,7 @@ glm::dmat4 HipoMesh::getMBB8(GLdouble t) {
 					m[i][j] = 1.0;
 				else {
 					GLdouble aux3 = v_curva[i];
-					m[i][j] = v_curva[i];
+					m[i][j] = v_curva[j];
 				}
 					
 			}
