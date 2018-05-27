@@ -1,3 +1,8 @@
 ﻿  Scene.cpp
-c:\users\sergio\desktop\master fdi\graficas por computador\practicavf\p2\myapp\scene.cpp(69): warning C4305: '=': truncamiento de 'double' a 'GLfloat'
-  MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\PracticaVF\P2\bin\MyAppDebug.exe
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasvdef\p2\myapp\scene.cpp(69): warning C4305: '=': truncamiento de 'double' a 'GLfloat'
+  Mesh.cpp
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasvdef\p2\myapp\mesh.cpp(269): warning C4018: '<': no coinciden signed/unsigned
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasvdef\p2\myapp\mesh.cpp(299): warning C4018: '<': no coinciden signed/unsigned
+c:\users\sergio\desktop\master fdi\graficas por computador\practicasvdef\p2\myapp\mesh.cpp(347): warning C4018: '<': no coinciden signed/unsigned
+  Generando código...
+  MyApp.vcxproj -> C:\Users\Sergio\Desktop\Master FDI\Graficas por computador\PracticasvDef\P2\bin\MyAppDebug.exe

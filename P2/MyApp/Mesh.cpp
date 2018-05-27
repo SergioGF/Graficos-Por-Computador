@@ -297,28 +297,44 @@ glm::dmat4 Mesh::getMBB8(GLdouble t) {
 void HipoMesh::normalize(int mm, int nn) {
 	normals = new dvec3[numVertices];
 	for (int i = 0; i < numVertices; i++) {
-		this->normals[i] = dvec3(0, 0, 0);
+		normals[i] = dvec3(0, 0, 0);
 	}
 	GLuint n = nQ;
 	GLuint m = nP;
 	for (GLuint i = 0; i < n; i++) {
 		for (GLuint j = 0; j < m - 1; j++) {
-			GLuint indice = i * m + j;
+			GLuint indice = i * nP + j;
+			GLuint indice1 = (indice + nP) % (nQ*nP);
+			GLuint indice2 = 0;
+			GLuint indice3 = 0;
+			if (j == nP - 1) {
+				indice2 = (indice + 1) % (nQ*nP);
+				indice3 = indice - nP + 1;
+			}
+			else {
+				indice2 = (indice + nP + 1) % (nQ*nP);
+				indice3 = indice + 1;
+			}
 			dvec3 aux0 = vertices[indice];
-			dvec3 aux1 = vertices[(indice + m) % (n*m)];
-			dvec3 aux2 = vertices[(indice + m + 1) % (n*m)];
+			dvec3 aux1 = vertices[indice3];
+			dvec3 aux2 = vertices[indice1];
 			dvec3 norm = glm::cross(aux2 - aux1, aux0 - aux1);
 
 			normals[indice] += norm;
-			normals[(indice + m) % (n*m)] += norm;
-			normals[(indice + m + 1) % (n*m)] += norm;
-			normals[indice + 1] += norm;
+			normals[indice1] += norm;
+			normals[indice2] += norm;
+			normals[indice3] += norm;
 		}
 	}
 
-	for (int i = 0; i < numVertices; i++)
-		this->normals[i] = glm::normalize(normals[i]);
+	for (int i = 0; i < nn; i++) {
+		for (int j = 0; j < mm; j++) {
+			int indice = i * nP + j;
+			normals[indice] = glm::normalize(normals[indice]);
+		}
+	}
 }
+
 HipoMesh::HipoMesh(int nP,int nQ, GLfloat a, GLfloat b, GLfloat c) {
 	int cont = 0;
 	this->nP = nP;
