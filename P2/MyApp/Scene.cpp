@@ -155,11 +155,12 @@ void Scene::moveBB8() {
 
 	CompoundEntity *cpo = (CompoundEntity*)ob->entities.at(1);
 	cpo->modelMat = glm::rotate(cpo->modelMat, glm::radians(5.0), glm::dvec3(1, 0, 0));
-   /*
-	if (cpo->mov == false) {
-		cpo->setMov();
-
-	}*/
+   
+	if (ob->mov == false) {
+		ob->setMov();
+		CompoundEntity *cpo2 = (CompoundEntity*)ob->entities.at(0);
+		cpo2->modelMat = glm::rotate(cpo2->modelMat, glm::radians(-35.0), glm::dvec3(1, 0, 0));
+	}
 }
 
 /*void Scene::saveImage() {
