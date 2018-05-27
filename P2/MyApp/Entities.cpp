@@ -489,7 +489,8 @@ SemiEsfera::SemiEsfera(int l) {
 
 	dvec3* perfil = new dvec3[23];
 	perfil[0] = dvec3(0.0, 0.0, 0.0);
-	perfil[1] = dvec3(l, 0.0, 0.0);
+	//perfil[1] = dvec3(l, 0.0, 0.0);
+	perfil[1] = dvec3(l - 1.0, 0.0, 0.0);
 
 	double varAng = 90 / 20;
 	double angulo = 0.0;
