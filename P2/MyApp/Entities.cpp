@@ -402,6 +402,7 @@ void Hipo::draw() {
 		}*/
 	}
 	// Definición de las caras
+	//glPolygonMode(GL_FRONT, GL_FILL);
 	glPolygonMode(GL_FRONT, GL_LINE);
 	int indiceCara = 0;
 	for (int i = 0; i < nQ; i++) { // Unir el perfil i-ésimo con el (i+1)%n-ésimo
@@ -432,6 +433,7 @@ void Hipo::draw() {
 
 				unsigned int stripIndices[] = { indice, indice1, indice2, indice3 };
 				glDrawElements(GL_LINE_LOOP,4, GL_UNSIGNED_INT, stripIndices);
+				//glDrawElements(GL_POLYGON, 4, GL_UNSIGNED_INT, stripIndices);
 		}
 	}
 	// Después del dibujo de los elementos por índices,

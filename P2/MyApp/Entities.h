@@ -199,6 +199,8 @@ public:
 	void moveBB8();
 	GLdouble getTbb8();
 	GLdouble tBB8 = 0.0;
+	bool mov = false;
+	void setMov() { mov = true; };
 protected:
 };
 
